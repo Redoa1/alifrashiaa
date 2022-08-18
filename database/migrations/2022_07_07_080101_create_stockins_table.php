@@ -15,7 +15,7 @@ class CreateStockinsTable extends Migration
     {
         Schema::create('stockins', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_Name');
+            $table->integer('product_id');
             $table->string('details');
             $table->integer('stock');
             $table->string('price');

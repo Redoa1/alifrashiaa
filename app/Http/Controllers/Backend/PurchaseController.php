@@ -30,6 +30,7 @@ class PurchaseController extends Controller
         $this->validate(
             $request,
             [
+                'voucher' => 'required|unique:purchases',
                 'name' => 'required',
                 'date' => 'required',
                 'address' => 'required',
@@ -38,6 +39,7 @@ class PurchaseController extends Controller
                 'quantity_type' => 'required',
             ],
             [
+                'voucher.required' => 'Voucher is required',
                 'name.required' => 'Please enter name',
                 'date.required' => 'Please enter date',
                 'address.required' => 'Please enter address',
@@ -46,7 +48,7 @@ class PurchaseController extends Controller
                 'quantity_type.required' => 'Please enter quantity type',
             ]
         );
-        $data = $request->only(['name', 'date', 'address', 'quantity_unit', 'quantity_type', 'price']);
+        $data = $request->only(['voucher','name', 'date', 'address', 'quantity_unit', 'quantity_type', 'price']);
         $np=Product::where('product_name', $data['name'])->first();
         if (!$np) {
             $product['product_name'] = $data['name'];

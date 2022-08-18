@@ -21,31 +21,33 @@ class RecieptController extends Controller
     }
 
     public function saveReciept(Request $request){
-    	$reciept_id = Reciept::insertGetId([
-      	'voucher' => $request->voucher,
-      	'date' => $request->date,
-      	'branch_id' => $request->branch_id,
-      	'note' => $request->note,
-      	'created_at' => Carbon::now(),
-   ]);
-
-    	foreach($request->details as $key=>$value){
-    		$saveRecord = [
-    			'reciept_id' => $reciept_id,
-          'ledger_id' => $request->ledger_id[$key],
-    			'details' => $request->details[$key],
-    			'amount' => $request->amount[$key],
-    		];
-    		
-    	 DB::table('recdebits')->insert($saveRecord);
-
-    		
-    	}
+      $this->validate($request,[
+        'voucher' => 'required',
+        'date' => 'required',
+        'branch_id' => 'required',
+        'ledger_id' => 'required',
+        'note' => 'required',
+        'details' => 'required',
+        'amount' => 'required',
+        'created_at' => Carbon::now(),
+    ]);
+    $recieptData = $request->only(['voucher', 'date', 'branch_id', 'ledger_id', 'note', 'created_at']);
+    $recieptData['date'] = Carbon::parse($recieptData['date'])->format('Y-m-d');
+    $reciept = Reciept::create($recieptData); 
+        $recdebitData = $request->only([
+            'reciept_id', 
+            'branch_id',
+            'ledger_id',
+            'details',
+            'amount',
+        ]);
+        $recdebitData['reciept_id'] = $reciept->id;
+        Recdebit::create($recdebitData);
     	 $notification = array(
             'message' => 'Payment Added Successfully',
             'alert-type' => 'success',
         );
-    	return redirect('/admin/reciept/view/'.$reciept_id)->with($notification);
+    	return redirect('/admin/reciept/view/'.$reciept->id)->with($notification);
     }
 
     public function ShowReciept(){

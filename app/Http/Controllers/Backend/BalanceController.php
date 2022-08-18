@@ -97,7 +97,7 @@ class BalanceController extends Controller
         $balanceSheet = [];
         foreach (Debit::all() as $debit) {
             $payment = Payment::where('id', $debit->payment_id)->first();
-            $n = Carbon::createFromFormat('d/M/Y', $payment->date)->format('d-m-Y');
+            $n = Carbon::createFromFormat('Y-m-d', $payment->date)->format('d-m-Y');
             $balanceSheet[] = [
                 'date' =>  $n,
                 'particulates' => 'Ledger',
@@ -147,9 +147,9 @@ class BalanceController extends Controller
         $to = $request->to;
 
 
-        $start_date = Carbon::createFromFormat('m/d/Y', $from)->format('d-m-Y');
+        $start_date = Carbon::createFromFormat('Y-m-d', $from)->format('d-m-Y');
 
-        $end_date = Carbon::createFromFormat('m/d/Y', $to)->format('d-m-Y');
+        $end_date = Carbon::createFromFormat('Y-m-d', $to)->format('d-m-Y');
 
         return $this->balanceSheet($start_date, $end_date);
 

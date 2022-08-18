@@ -37,7 +37,7 @@ class PaymentController extends Controller
             'created_at' => Carbon::now(),
         ]);
         $paymentData = $request->only(['voucher', 'date', 'branch_id', 'note', 'ledger_id', 'created_at']);
-        $paymentData['date'] = Carbon::parse($paymentData['date'])->format('d/M/Y');
+        $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
         $payment = Payment::create($paymentData); 
             $debitData = $request->only([
                 'payment_id', 

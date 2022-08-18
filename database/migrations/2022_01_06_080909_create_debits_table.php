@@ -15,8 +15,11 @@ class CreateDebitsTable extends Migration
     {
         Schema::create('debits', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id');
+            $table->foreignId('ledger_id');
             $table->string('details');
             $table->string('amount');
+            $table->foreignId('payment_id');
             $table->timestamps();
         });
     }

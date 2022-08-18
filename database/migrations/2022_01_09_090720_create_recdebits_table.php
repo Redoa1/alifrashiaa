@@ -15,7 +15,9 @@ class CreateRecdebitsTable extends Migration
     {
         Schema::create('recdebits', function (Blueprint $table) {
             $table->id();
-            $table->integer('reciept_id');
+            $table->foreignId('reciept_id');
+            $table->foreignId('branch_id');
+            $table->foreignId('ledger_id');
             $table->string('details');
             $table->string('amount');
             $table->timestamps();

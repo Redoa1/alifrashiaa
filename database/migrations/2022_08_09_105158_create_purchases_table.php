@@ -15,6 +15,7 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->string('voucher')->unique();
             $table->string('name');
             $table->date('date');
             $table->string('address')->nullable();

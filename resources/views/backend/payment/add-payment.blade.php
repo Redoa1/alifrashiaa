@@ -24,11 +24,11 @@
         <form id="validate" action="{{ route('admin.form.save.payment') }}" method="post">
             @csrf
             <div style="background-color:#138496;padding:20px;color:white;margin-bottom:20px;">
-                <div class="form-group row">
+                <div class="form-group row" >
                     <label class="col-lg-4 col-form-label" for="val-category">Voucher<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" name="voucher">
+                        <input type="text" readonly class="form-control" name="voucher" value="#PA{{ Str::random(8); }}">
                     </div>
                 </div>
 
