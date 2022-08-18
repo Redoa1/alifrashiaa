@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\BalanceController;
 use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\Backend\StockController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Providers\RouteServiceProvider;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

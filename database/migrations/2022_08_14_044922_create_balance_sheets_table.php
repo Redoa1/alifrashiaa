@@ -14,7 +14,7 @@ class CreateBalanceSheetsTable extends Migration
     public function up()
     {
         Schema::create('balance_sheets', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->date('date');
             $table->string('particulates');
             $table->string('specific'); 

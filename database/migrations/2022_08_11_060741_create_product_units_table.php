@@ -14,7 +14,7 @@ class CreateProductUnitsTable extends Migration
     public function up()
     {
         Schema::create('product_units', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->string('unit_name')->unique();
             $table->timestamps();
         });

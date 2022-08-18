@@ -21,7 +21,7 @@ class BalanceController extends Controller
 
     public function saveBalance(Request $request)
     {
-        $validateData = $request->validate(
+        $request->validate(
             [
                 'balance' => 'required',
             ],
@@ -29,11 +29,10 @@ class BalanceController extends Controller
                 'balance.required' => 'Balance is required',
             ]
         );
-
-        Balance::insert([
-            'balance' => $request->balance,
-            'created_at' => Carbon::now(),
-        ]);
+        $date=Carbon::now()->format('Y-m-d');
+        $data=$request->only(['balance']);
+        $data['date']=$date;
+        Balance::create($data);
 
         $notification = array(
             'message' => 'Balance Added Successfully',
@@ -132,9 +131,9 @@ class BalanceController extends Controller
         $totalDebit = array_sum(array_column($balanceSheet, 'debit'));
         $totalCredit = array_sum(array_column($balanceSheet, 'credit'));
         $totalBalance = $totalCredit - $totalDebit;
-        dd($balanceSheet);
+        // dd($balanceSheet);
         if ($from != 0 && $to != 0) {
-            dd($from, $to);
+            // dd($from, $to);
             $balancesheets = collect($balanceSheet)->sortByDesc('date')->whereBetween('date', [$from, $to]);
         } else {
             $balancesheets = collect($balanceSheet)->sortByDesc('date');
