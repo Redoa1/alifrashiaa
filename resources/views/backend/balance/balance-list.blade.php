@@ -34,7 +34,7 @@
                                             $tBalance = 0;
                                           @endphp
 
-                                              @foreach($balances as $balance)
+                                              @foreach($balancesheets as $balance)
                                                 @php
                                                     $tBalance += $balance['balance'];
                                                 @endphp

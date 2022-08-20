@@ -29,9 +29,9 @@ class BalanceController extends Controller
                 'balance.required' => 'Balance is required',
             ]
         );
-        $date=Carbon::now()->format('Y-m-d');
-        $data=$request->only(['balance']);
-        $data['date']=$date;
+        $date = Carbon::now()->format('Y-m-d');
+        $data = $request->only(['balance']);
+        $data['date'] = $date;
         Balance::create($data);
 
         $notification = array(
@@ -85,14 +85,7 @@ class BalanceController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-
-    // public function searchBalance(Request $request){
-    //     $search = $request->search;
-    //     $balances = Balance::where('balance','like','%'.$search.'%')->get();
-    //     return view('backend.balance.balance-list',compact('balances'));
-    // }
-    //balance sheet report
-    public function balanceSheet($from = 0, $to = 0)
+    public function balanceSheet($from=0,$to=0)
     {
         $balanceSheet = [];
         foreach (Debit::all() as $debit) {
@@ -131,14 +124,19 @@ class BalanceController extends Controller
         $totalDebit = array_sum(array_column($balanceSheet, 'debit'));
         $totalCredit = array_sum(array_column($balanceSheet, 'credit'));
         $totalBalance = $totalCredit - $totalDebit;
-        // dd($balanceSheet);
         if ($from != 0 && $to != 0) {
-            // dd($from, $to);
-            $balancesheets = collect($balanceSheet)->sortByDesc('date')->whereBetween('date', [$from, $to]);
+            $balancesheets = array_filter($balanceSheet, function ($balance) use ($from, $to) {
+
+                $date = Carbon::createFromFormat('d-m-Y', $balance['date']) ;
+                return $date->between($from, $to);
+            });
+            $balancesheets = collect($balancesheets)->sortDesc();
+            return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance', 'from', 'to'));
         } else {
-            $balancesheets = collect($balanceSheet)->sortByDesc('date');
+            
+            $balancesheets = collect($balanceSheet)->sortDesc();
+            return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance'));
         }
-        return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance'));
     }
 
     public function generateReport(Request $request)
@@ -147,9 +145,10 @@ class BalanceController extends Controller
         $to = $request->to;
 
 
-        $start_date = Carbon::createFromFormat('Y-m-d', $from)->format('d-m-Y');
+        $start_date = Carbon::parse("$from 00:00:00")->format('Y-m-d H:i:s');
+        $end_date = Carbon::parse("$to 23:59:59")->format('Y-m-d H:i:s');
 
-        $end_date = Carbon::createFromFormat('Y-m-d', $to)->format('d-m-Y');
+        
 
         return $this->balanceSheet($start_date, $end_date);
 
