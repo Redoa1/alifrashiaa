@@ -35,7 +35,7 @@
                     <label class="col-lg-4 col-form-label" for="val-category">Date<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" readonly class="form-control" value="{{ $payment->created_at->todatestring() }}">
+                        <input type="text" readonly class="form-control" value="{{ $payment->date }}">
                     </div>
                 </div>
                

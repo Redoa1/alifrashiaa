@@ -62,7 +62,7 @@
                             <i class="icon-menu menu-icon"></i> <span class="nav-text">Branch</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.branch.add') }}">Add Branch</a></li>
+                            <!-- <li><a href="{{ route('admin.branch.add') }}">Add Branch</a></li> -->
                             <li><a href="{{ route('admin.branch.show') }}">All Branch</a></li>
                         </ul>
                     </li>
@@ -87,7 +87,7 @@
                         </ul>
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-note menu-icon"></i> <span class="nav-text">Reciept</span>
                         </a>
@@ -95,16 +95,16 @@
                             <li><a href="{{ route('admin.reciept.add') }}">Add Reciept</a></li>
                             <li><a href="{{ route('admin.reciept.show') }}">All Reciept</a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
-                     <li>
+                     <!-- <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-grid menu-icon"></i> <span class="nav-text">Balance Sheet</span>
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('admin.report.show') }}">Total report</a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
 
                 </ul>

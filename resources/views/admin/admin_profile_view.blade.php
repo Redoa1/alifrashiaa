@@ -38,7 +38,7 @@
                     <label class="col-lg-4 col-form-label" for="val-category">Admin Name<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" required class="form-control" name="name" value="{{ $admin_data->name }}">
+                        <input type="text" required class="form-control" name="name" value="{{ $admin->name }}">
                     </div>
                 </div>
 
@@ -48,7 +48,7 @@
                     <label class="col-lg-4 col-form-label" for="val-category">Admin E-mail<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="email" required class="form-control" name="email" value="{{ $admin_data->email }}">
+                        <input type="email" required class="form-control" name="email" value="{{ $admin->email }}">
                     </div>
                 </div>
 
@@ -57,7 +57,7 @@
                     </label>
                     <div class="col-lg-6">
                         <input type="file" onchange="readURL(this);" name="profile_photo_path" class="form-control">
-                        <img width=100px; id="image" height=100px; src="{{ (!empty($admin_data->profile_photo_path))? url('backend/upload/admin/'.$admin_data->profile_photo_path):url('backend/upload/admin_profile.png') }}">
+                        <img width=100px; id="image" height=100px; src="{{ (!empty($admin->profile_photo_path))? url('backend/upload/admin/'.$admin->profile_photo_path):url('backend/upload/admin_profile.png') }}">
                     </div>
                 </div>
 				  

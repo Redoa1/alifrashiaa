@@ -40,7 +40,7 @@
                                                   <th scope="row">{{ $i++ }}</th>
                                                   <td>{{ $payment->voucher }}</td>
                                                   <td>{{ $payment->branch->branch_name }}</td>
-                                                  <td>{{ Carbon\Carbon::parse($payment->created_at)->format('Y-m-d') }}</td>
+                                                  <td>{{ Carbon\Carbon::parse($payment->date)->format('d-m-Y') }}</td>
 
                                                   </td>
                                                   <td><a href="{{ URL::to('admin/payment/view/'.$payment->id) }}" class="btn btn-primary btn-sm">View</a> <a href="{{ URL::to('admin/payment/delete/'.$payment->id) }}" id="delete" class="btn btn-success btn-sm">Delete</a> <a href="{{ URL::to('admin/payment/print/'.$payment->id) }}" class="btn btn-danger btn-sm">Print</a> <a href="{{ URL::to('admin/payment/edit/'.$payment->id) }}" class="btn btn-info btn-sm">Edit</a></td>

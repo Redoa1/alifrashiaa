@@ -46,7 +46,13 @@
                                                   <td>{{ date('d/M/Y', strtotime($branch->created_at->toDateString())) }}
 
                                                   </td>
-                                                  <td><a href="{{ URL::to('admin/branch/edit/'.$branch->id) }}" class="btn btn-info btn-sm">Edit</a> <a href="{{ URL::to('admin/branch/delete/'.$branch->id) }}" id="delete" class="btn btn-success btn-sm">Delete</a> <a href="{{ URL::to('admin/branch/report/'.$branch->id) }}" class="btn btn-danger btn-sm">Report</a> <a href="{{ URL::to('admin/branch/allreport/'.$branch->id) }}" class="btn btn-primary btn-sm">Total Report</a> <a href="{{ URL::to('admin/branch/search/'.$branch->id) }}" class="btn btn-info btn-sm">Search Report</a></td>
+                                                  <td>
+                                                    <a href="{{ URL::to('admin/branch/edit/'.$branch->id) }}" class="btn btn-info btn-sm">Edit</a> 
+                                                    <!-- <a href="{{ URL::to('admin/branch/delete/'.$branch->id) }}" id="delete" class="btn btn-success btn-sm">Delete</a>  -->
+                                                    <a href="{{ URL::to('admin/branch/report/'.$branch->id) }}" class="btn btn-danger btn-sm">Report</a> 
+                                                    <a href="{{ URL::to('admin/branch/allreport/'.$branch->id) }}" class="btn btn-primary btn-sm">Total Report</a> 
+                                                    <!-- <a href="{{ URL::to('admin/branch/search/'.$branch->id) }}" class="btn btn-info btn-sm">Search Report</a> -->
+                                                </td>
                                                 </tr>
                                               @endforeach
                                           </tbody>

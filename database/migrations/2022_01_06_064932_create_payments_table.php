@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('voucher');
-            $table->string('date');
+            $table->date('date');
             $table->integer('branch_id');
             $table->integer('ledger_id');
             $table->text('note');

@@ -95,9 +95,8 @@
     <script src="{{ asset('backend/js/settings.js') }}"></script>
     <script src="{{ asset('backend/js/gleek.js') }}"></script>
     <script src="{{ asset('backend/js/styleSwitcher.js') }}"></script>
-    
+    @if(Session::has('message'))
     <script>
-      @if(Session::has('message'))
         var type="{{Session::get('alert-type','info')}}"
         switch(type){
             case 'info':
@@ -113,8 +112,8 @@
                 toastr.error("{{ Session::get('message') }}");
                 break;
         }
-      @endif
     </script>
+      @endif
 </body>
 </html>
 

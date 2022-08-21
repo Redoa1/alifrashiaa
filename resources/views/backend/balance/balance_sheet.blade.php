@@ -13,12 +13,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
+            <h2 class="text-center">Balance Sheet</h2>
+                <div class="container">
+                    <div class="bg-light shadow-sm px-3 rounded">
                         <div class="form-validation">
                             <form class="form-valide" action="{{ route('admin.balance.generatereport') }}" method="post">
                                 @csrf
-                                <div class="form-group row align-items-end mb-3">
+                                <div class="form-group row align-items-end">
                                     <h4 class="col-lg-2">Search By Date:<span class="text-danger">*</span></h4>
                                     <div class="col-lg-4">
                                     <label class="col-form-label" for="val-category">From<span class="text-danger">*</span>
@@ -36,9 +37,13 @@
                                 </div>
                             </form>
                         </div>
-                        <h4 class="card-title">Balance Sheet</h4>
+                        @if(isset($from) && isset ($to))
+                        
+                                    <h4 style="text-align:center;">Date : <b>From: {{ Carbon\Carbon::parse($from)->format('d-m-Y') }}  To: {{ Carbon\Carbon::parse($to)->format('d-m-Y') }}</b></h4>
+                        @endif
+
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered zero-configuration">
+                            <table class="table table-hover table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
                                         <th scope="col">Serial No</th>
@@ -57,7 +62,7 @@
                                     @foreach($balancesheets as $balance)
                                     <tr>
                                         <th scope="row">{{ $i++ }}</th>
-                                        <td>{{ $balance['date'] }}</td>
+                                        <td>{{ Carbon\Carbon::parse($balance['date'])->format('d-m-Y') }}</td>
                                         <td>{{ $balance['particulates'] }}</td>
                                         <td>{{ $balance['specific'] }}</td>
                                         <td>{{ $balance['payment_type'] }}</td>

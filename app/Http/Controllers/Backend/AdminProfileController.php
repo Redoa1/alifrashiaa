@@ -13,8 +13,8 @@ class AdminProfileController extends Controller
 {
     public function getAdminData(){
     	$admin_id = Auth::guard('admin')->id();
-    	$admin_data = Admin::find($admin_id);
-    	return view('admin.admin_profile_view',compact('admin_data'));
+    	$admin = Admin::find($admin_id);
+    	return view('admin.admin_profile_view',compact('admin'));
     }
 
     public function updateAdminData(Request $request){

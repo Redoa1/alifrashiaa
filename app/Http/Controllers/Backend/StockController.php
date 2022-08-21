@@ -8,6 +8,7 @@ use App\Models\Stockin;
 use App\Models\Stockout;
 use App\Models\Balance;
 use App\Models\Product;
+use App\Models\ProductUnits;
 use Carbon\Carbon;
 use DB;
 
@@ -15,12 +16,14 @@ class StockController extends Controller
 {
      public function AddStock(){
         $products = Product::all();
-        return view('backend.stock.add-stock',compact('products'));
+        $stock_types = ProductUnits::all();
+        return view('backend.stock.add-stock',compact('products','stock_types'));
     }
 
      public function OutStock(){
         $products = Product::all();
-        return view('backend.stock.out-stock',compact('products'));
+        $stock_types = ProductUnits::all();
+        return view('backend.stock.out-stock',compact('products','stock_types'));
     }
 
     public function StoreStock(Request $request){

@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Balance;
+use App\Models\BalanceSheet;
 use App\Models\Debit;
 use App\Models\Ledger;
 use App\Models\Payment;
 use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Support\Carbon as SupportCarbon;
+
+use function PHPSTORM_META\type;
 
 class BalanceController extends Controller
 {
@@ -43,8 +46,8 @@ class BalanceController extends Controller
 
     public function ShowBalance()
     {
-        $balances = Balance::all();
-        return view('backend.balance.balance-list', compact('balances'));
+        $balancesheets = Balance::all();
+        return view('backend.balance.balance-list', compact('balancesheets'));
     }
 
     public function editBalance($id)
@@ -90,7 +93,7 @@ class BalanceController extends Controller
         $balanceSheet = [];
         foreach (Debit::all() as $debit) {
             $payment = Payment::where('id', $debit->payment_id)->first();
-            $n = Carbon::createFromFormat('Y-m-d', $payment->date)->format('d-m-Y');
+            $n = Carbon::createFromFormat('Y-m-d', $payment->date);
             $balanceSheet[] = [
                 'date' =>  $n,
                 'particulates' => 'Ledger',
@@ -101,7 +104,8 @@ class BalanceController extends Controller
             ];
         }
         foreach (Purchase::all() as $purchase) {
-            $n = Carbon::createFromFormat('Y-m-d', $purchase->date)->format('d-m-Y');
+            $n = Carbon::createFromFormat('Y-m-d', $purchase->date);
+
             $balanceSheet[] = [
                 'date' => $n,
                 'particulates' => 'Purchase',
@@ -113,7 +117,7 @@ class BalanceController extends Controller
         }
         foreach (Balance::all() as $balance) {
             $balanceSheet[] = [
-                'date' => $balance->created_at->format('d-m-Y'),
+                'date' => Carbon::createFromFormat('Y-m-d', $balance->date),
                 'particulates' => 'Balance',
                 'specific' => '',
                 'payment_type' => '',
@@ -121,19 +125,19 @@ class BalanceController extends Controller
                 'credit' => $balance->balance,
             ];
         }
-        $totalDebit = array_sum(array_column($balanceSheet, 'debit'));
-        $totalCredit = array_sum(array_column($balanceSheet, 'credit'));
-        $totalBalance = $totalCredit - $totalDebit;
         if ($from != 0 && $to != 0) {
-            $balancesheets = array_filter($balanceSheet, function ($balance) use ($from, $to) {
-
-                $date = Carbon::createFromFormat('d-m-Y', $balance['date']) ;
-                return $date->between($from, $to);
-            });
-            $balancesheets = collect($balancesheets)->sortDesc();
+            $balancesheets = BalanceSheet::whereBetween('date', [$from, $to])->get()->sortByDesc('date');
+            $totalDebit = $balancesheets->sum('debit');
+            $totalCredit = $balancesheets->sum('credit');
+            $totalBalance = $totalCredit - $totalDebit;
             return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance', 'from', 'to'));
         } else {
-            
+            BalanceSheet::truncate();
+            $balancesheets = $balanceSheet;
+            BalanceSheet::insert($balancesheets);
+            $totalDebit = array_sum(array_column($balanceSheet, 'debit'));
+            $totalCredit = array_sum(array_column($balanceSheet, 'credit'));
+            $totalBalance = $totalCredit - $totalDebit;
             $balancesheets = collect($balanceSheet)->sortDesc();
             return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance'));
         }
@@ -145,8 +149,8 @@ class BalanceController extends Controller
         $to = $request->to;
 
 
-        $start_date = Carbon::parse("$from 00:00:00")->format('Y-m-d H:i:s');
-        $end_date = Carbon::parse("$to 23:59:59")->format('Y-m-d H:i:s');
+        $start_date = Carbon::parse("$from")->format('Y-m-d');
+        $end_date = Carbon::parse("$to")->format('Y-m-d');
 
         
 
