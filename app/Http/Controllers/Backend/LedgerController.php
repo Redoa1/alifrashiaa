@@ -91,7 +91,7 @@ class LedgerController extends Controller
         
 
         $total_debit = Debit::Where('ledger_id',$id)
-          ->selectRaw("debits.*, SUM(amount) as amount")
+          ->selectRaw("debits.*, SUM(paid) as amount")
           ->groupBy('ledger_id')
           ->get();
 
@@ -113,7 +113,7 @@ class LedgerController extends Controller
 
       $debits = Debit::where('ledger_id',$ledger_id)
                           ->whereBetween('created_at', [$from, $enddate])
-                          ->selectRaw("debits.* , SUM(amount) as amount")
+                          ->selectRaw("debits.* , SUM(paid) as amount")
                           ->groupBy('ledger_id')
                           ->get();
 

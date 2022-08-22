@@ -37,7 +37,7 @@
                                             <label class="col-lg-4 col-form-label" for="val-category">Enter Balance<span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" name="balance" placeholder="Enter Amount Of Money">
+                                                <input type="number" class="form-control" name="balance" placeholder="Enter Amount Of Money" required>
                                             </div>
                                         </div>
                                         

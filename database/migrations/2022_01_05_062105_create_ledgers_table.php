@@ -15,8 +15,8 @@ class CreateLedgersTable extends Migration
     {
         Schema::create('ledgers', function (Blueprint $table) {
             $table->id();
-            $table->string('ledger_name');
-            $table->string('payment');
+            $table->string('ledger_name')->required();
+            $table->string('payment')->required();
             $table->text('note');
             $table->timestamps();
         });

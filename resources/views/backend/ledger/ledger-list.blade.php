@@ -42,7 +42,12 @@
                                                   <td>{{ $ledger->payment }}</td>
                                                   <td>{{ date('d/M/Y', strtotime($ledger->created_at->toDateString())) }}</td>
                                                   <td>{{ $ledger->note }}</td>
-                                                  <td><a href="{{ URL::to('admin/ledger/edit/'.$ledger->id) }}" class="btn btn-info btn-sm">Edit</a> <a href="{{ URL::to('admin/ledger/delete/'.$ledger->id) }}" id="delete" class="btn btn-success btn-sm">Delete</a> <a href="{{ URL::to('admin/ledger/report/'.$ledger->id) }}" class="btn btn-danger btn-sm">Report</a> <a href="{{ URL::to('admin/ledger/totalreport/'.$ledger->id) }}" class="btn btn-primary btn-sm">Total Report</a><a href="{{ URL::to('admin/ledger/search/'.$ledger->id) }}" class="btn btn-info btn-sm">Search Report</a></td>
+                                                  <td>
+                                                    <a href="{{ URL::to('admin/ledger/edit/'.$ledger->id) }}" class="btn btn-info btn-sm">Edit</a> 
+                                                    <a href="{{ URL::to('admin/ledger/delete/'.$ledger->id) }}" id="delete" class="btn btn-success btn-sm">Delete</a> 
+                                                    <a href="{{ URL::to('admin/ledger/report/'.$ledger->id) }}" class="btn btn-danger btn-sm">Report</a> 
+                                                    <a href="{{ URL::to('admin/ledger/totalreport/'.$ledger->id) }}" class="btn btn-primary btn-sm">Total Report</a>
+                                                    <!-- <a href="{{ URL::to('admin/ledger/search/'.$ledger->id) }}" class="btn btn-info btn-sm">Search Report</a></td> -->
                                                 </tr>
                                               @endforeach
                                           </tbody>

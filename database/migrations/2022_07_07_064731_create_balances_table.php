@@ -15,8 +15,8 @@ class CreateBalancesTable extends Migration
     {
         Schema::create('balances', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->integer('balance');
+            $table->date('date')->required();
+            $table->integer('balance')->required();
             $table->timestamps();
         });
     }

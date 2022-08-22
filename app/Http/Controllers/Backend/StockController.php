@@ -27,24 +27,34 @@ class StockController extends Controller
     }
 
     public function StoreStock(Request $request){
-        $validateData = $request->validate([
+        $request->validate([
             'product_id' => 'required',
             'details' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
+            'stock_unit' => 'required|integer|min:1',
+            'stock_type' => 'required',
+            'price' => 'required|integer|min:1',
         ],
         [
             'product_id.required' => 'Product Name is required',
             'details.required' => 'Details is required',
-            'stock.required' => 'Stock Required',
+            'stock_unit.required' => 'Stock Unit is required',
+            'stock_unit.integer' => 'Stock Unit must be integer',
+            'stock_unit.min' => 'Stock Unit must be greater than 0',
+            'stock_type.required' => 'Stock Type is required',
             'price.required' => 'Price cannot be empty',
+            'price.integer' => 'Price must be integer',
+            'price.min' => 'Price must be greater than 0',
         ]);
-
-       
+        $npu=ProductUnits::where('unit_name', $request->stock_type)->first();
+        if (!$npu) {
+            $product_unit['unit_name'] = $request->stock_type;
+            ProductUnits::create($product_unit);
+        }
         Stockin::insert([
         'product_id' => $request->product_id,
         'details' => $request->details,
-        'stock' => $request->stock,
+        'stock_unit' => $request->stock_unit,
+        'stock_type' => $request->stock_type,
         'price' => $request->price,
         'created_at' => Carbon::now(),
    ]);
@@ -57,20 +67,24 @@ class StockController extends Controller
     }
        
      public function StoreStockOut(Request $request){
-        $validateData = $request->validate([
+        $request->validate([
             'product_id' => 'required',
-            'stock' => 'required',
+            'stock_unit' => 'required|integer|min:1',
+            'stock_type' => 'required',
         ],
         [
             'product_id.required' => 'Product Name is required',
-            'stock.required' => 'Stock Required',
+            'stock_unit.required' => 'Stock Unit is required',
+            'stock_unit.integer' => 'Stock Unit must be integer',
+            'stock_unit.min' => 'Stock Unit must be greater than 0',
+            'stock_type.required' => 'Stock Type is required',
         ]);
 
         $product_id = $request->product_id;
-        $stock = $request->stock;
+        $stock = $request->stock_unit;
 
-        $total_stock_in = Stockin::where('product_id',$product_id)->sum('stock');
-        $total_stock_out = Stockout::where('product_id',$product_id)->sum('stock');
+        $total_stock_in = Stockin::where('product_id',$product_id)->sum('stock_unit');
+        $total_stock_out = Stockout::where('product_id',$product_id)->sum('stock_unit');
         $final_stock = $total_stock_in - $total_stock_out;
 
         if($stock > $final_stock){
@@ -80,9 +94,16 @@ class StockController extends Controller
         );
       return redirect()->back()->with($notification);
         }else{
+            $npu=ProductUnits::where('unit_name', $request->stock_type)->first();
+        if (!$npu) {
+            $product_unit['unit_name'] = $request->stock_type;
+            ProductUnits::create($product_unit);
+        }
+
             Stockout::insert([
         'product_id' => $request->product_id,
-        'stock' => $request->stock,
+        'stock_unit' => $request->stock_unit,
+        'stock_type' => $request->stock_type,
         'created_at' => Carbon::now(),
    ]);
 
@@ -99,11 +120,17 @@ class StockController extends Controller
         return view('backend.stock.add-product');
     } 
     public function StoreProduct(Request $request){
-        $validateData = $request->validate([
-            'product_name' => 'required',
+        
+        $request->validate([
+            'product_name' => 'required|unique:products|max:255|min:3|regex:[^[a-zA-Z]{1,}$]',
         ],
         [
             'product_name.required' => 'Product Name is required',
+            'product_name.unique' => 'Product Name already exists',
+            'product_name.max' => 'Product Name must be less than 255 characters',
+            'product_name.min' => 'Product Name must be greater than 3 characters',
+            'product_name.regex' => 'Product Name must not contain any numbers',
+
         ]);
 
         Product::insert([
@@ -124,11 +151,16 @@ class StockController extends Controller
     }
 
      public function updateProduct(Request $request,$id){
-        $validateData = $request->validate([
-            'product_name' => 'required',
+        $request->validate([
+            'product_name' => 'required|unique:products|max:255|min:3|regex:[^[a-zA-Z]{1,}$]',
         ],
         [
-            'product_name.required' => 'Balance is required',
+            'product_name.required' => 'Product Name is required',
+            'product_name.unique' => 'Product Name already exists',
+            'product_name.max' => 'Product Name must be less than 255 characters',
+            'product_name.min' => 'Product Name must be greater than 3 characters',
+            'product_name.regex' => 'Product Name must not contain any numbers',
+
         ]);
 
         Product::findOrFail($id)->update([
@@ -145,13 +177,16 @@ class StockController extends Controller
     public function ShowProductRecord($id){
         $product = Stockin::where('product_id',$id)->get();
         $product_details = Product::findOrFail($id);
-        $stock = $product->sum('stock');
-        $price = $product->sum('price');
+        $stock = $product->sum('stock_unit');
+        $inprice = $product->sum('price');
+        $unitprice = $inprice/$stock;
+        $stockout = Stockout::where('product_id',$id)->get();
+        $stockout_details = Product::findOrFail($id);
+        $stockout_stock = $stockout->sum('stock_unit');
+        $price = round($inprice - $stockout_stock*$unitprice);
 
-      
-
-        $total_stock_in = Stockin::where('product_id',$id)->sum('stock');
-        $total_stock_out = Stockout::where('product_id',$id)->sum('stock');
+        $total_stock_in = Stockin::where('product_id',$id)->sum('stock_unit');
+        $total_stock_out = Stockout::where('product_id',$id)->sum('stock_unit');
         $final_stock = $total_stock_in - $total_stock_out;
 
 
@@ -162,9 +197,9 @@ class StockController extends Controller
         $stocks = Stockin::where('product_id',$id)->get();
         $stockouts = Stockout::where('product_id',$id)->get();
 
-        $total_stock = Stockin::where('product_id',$id)->sum('stock');
+        $total_stock = Stockin::where('product_id',$id)->sum('stock_unit');
         $total_price = Stockin::where('product_id',$id)->sum('price');
-        $total_stockout = Stockout::where('product_id',$id)->sum('stock');
+        $total_stockout = Stockout::where('product_id',$id)->sum('stock_unit');
         return view('backend.stock.view-product-inout',compact('stocks','stockouts','total_stock','total_price','total_stockout'));
     }
 

@@ -69,7 +69,7 @@
                     <tr>
                         <th>Ledgers</th>
                         <th>Costing Details</th>
-                        <th>Amount</th>
+                        <th colspan="3">Amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,7 +83,8 @@
                             </select>
                         </td>
                         <td id="col1"><input type="text" class="form-control" name="details" placeholder="Cost Details" required></td>
-                        <td id="col2"><input type="tel" class="form-control" name="amount" placeholder="Enter amount" required></td>
+                        <td id="col2"><input type="number" class="form-control" name="payable" placeholder="Payable" required></td>
+                        <td id="col3"><input type="number" class="form-control" name="paid" placeholder="Paid" required></td>
                     </tr>
                 </tbody>
             </table>

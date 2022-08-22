@@ -15,8 +15,8 @@ class CreateRecieptsTable extends Migration
     {
         Schema::create('reciepts', function (Blueprint $table) {
             $table->id();
-            $table->string('voucher');
-            $table->date('date');
+            $table->string('voucher')->unique();
+            $table->date('date')->required();
             $table->integer('branch_id');
             $table->integer('ledger_id');
             $table->text('note');

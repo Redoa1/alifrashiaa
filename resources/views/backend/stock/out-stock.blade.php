@@ -106,4 +106,6 @@
         toggle($(`select[name=${inputName}]`), $(`input[name=${inputName}]`));
     }
 </script>
+<script>
+</script>
 @endsection

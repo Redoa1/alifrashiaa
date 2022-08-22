@@ -18,7 +18,9 @@ class CreateDebitsTable extends Migration
             $table->foreignId('branch_id');
             $table->foreignId('ledger_id');
             $table->string('details');
-            $table->string('amount');
+            $table->integer('payable')->requirerd();
+            $table->integer('paid')->requirerd();
+            $table->integer('due');
             $table->foreignId('payment_id');
             $table->timestamps();
         });

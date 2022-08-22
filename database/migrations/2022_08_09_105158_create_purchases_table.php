@@ -16,11 +16,11 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('voucher')->unique();
-            $table->string('name');
-            $table->date('date');
+            $table->string('name')->required();
+            $table->date('date')->required();
             $table->string('address')->nullable();
-            $table->string('quantity_unit')->require;
-            $table->string('quantity_type')->require;
+            $table->string('quantity_unit')->required();
+            $table->string('quantity_type')->required();
             $table->integer('price');
             $table->timestamps();
         });

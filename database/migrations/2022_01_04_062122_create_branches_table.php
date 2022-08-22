@@ -17,8 +17,8 @@ class CreateBranchesTable extends Migration
             $table->id();
             $table->string('branch_name')->unique();
             $table->text('branch_address');
-            $table->string('country');
-            $table->text('location');
+            $table->string('country')->required();
+            $table->text('location')->required();
             $table->text('note');
             $table->timestamps();
         });

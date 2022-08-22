@@ -16,7 +16,8 @@ class CreateStockoutsTable extends Migration
         Schema::create('stockouts', function (Blueprint $table) {
             $table->id();
             $table->integer('product_id');
-            $table->integer('stock');
+            $table->integer('stock_unit')->required();
+            $table->string('stock_type')->required();
             $table->timestamps();
         });
     }

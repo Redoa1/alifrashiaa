@@ -81,7 +81,7 @@ Route::prefix('admin/ledger/')->group(function(){
 Route::prefix('admin/payment/')->group(function(){
 	Route::get('add', [PaymentController::class, 'AddPayment'])->name('admin.payment.add');
 	Route::get('show', [PaymentController::class, 'ShowPayment'])->name('admin.payment.show');
-	Route::get('view/{id}', [PaymentController::class, 'viewPaymentById']);
+	Route::get('view/{id}', [PaymentController::class, 'viewPaymentById'])->name('admin.payment.view');
 	Route::get('delete/{id}', [PaymentController::class, 'deletePayment']);
 	Route::get('print/{id}', [PaymentController::class, 'PrintPayment']);
 	Route::get('edit/{id}', [PaymentController::class, 'editPayment']);

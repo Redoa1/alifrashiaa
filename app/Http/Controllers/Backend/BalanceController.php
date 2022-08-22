@@ -24,14 +24,13 @@ class BalanceController extends Controller
 
     public function saveBalance(Request $request)
     {
-        $request->validate(
-            [
-                'balance' => 'required',
-            ],
-            [
-                'balance.required' => 'Balance is required',
-            ]
-        );
+        $this->validate($request, [
+            'balance' => 'required|integer|min:1',
+        ], [
+            'balance.required' => 'Balance is required',
+            'balance.integer' => 'Balance must be integer',
+            'balance.min' => 'Balance must be greater than 0',
+        ]);
         $date = Carbon::now()->format('Y-m-d');
         $data = $request->only(['balance']);
         $data['date'] = $date;
@@ -58,14 +57,13 @@ class BalanceController extends Controller
 
     public function updateBalance(Request $request, $id)
     {
-        $validateData = $request->validate(
-            [
-                'balance' => 'required',
-            ],
-            [
-                'balance.required' => 'Balance is required',
-            ]
-        );
+        $this->validate($request, [
+            'balance' => 'required|integer|min:1',
+        ], [
+            'balance.required' => 'Balance is required',
+            'balance.integer' => 'Balance must be integer',
+            'balance.min' => 'Balance must be greater than 0',
+        ]);
 
         Balance::findOrFail($id)->update([
             'balance' => $request->balance,
@@ -99,7 +97,7 @@ class BalanceController extends Controller
                 'particulates' => 'Ledger',
                 'specific' => $debit->ledger->ledger_name,
                 'payment_type' => $payment->voucher,
-                'debit' => $debit->amount,
+                'debit' => $debit->paid,
                 'credit' => 0,
             ];
         }

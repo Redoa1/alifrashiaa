@@ -135,7 +135,7 @@
     @if(Session::has('message'))
 <script>
       
-        var type="{{Session::get('alert-type','info')}}"
+        var type="{{ (Session::has('alert-type'))?(Session::get('alert-type')):'info' }}";
         switch(type){
             case 'info':
                  toastr.info("{{ Session::get('message') }}");

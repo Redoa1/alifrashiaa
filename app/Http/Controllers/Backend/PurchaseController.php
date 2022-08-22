@@ -34,8 +34,8 @@ class PurchaseController extends Controller
                 'name' => 'required',
                 'date' => 'required',
                 'address' => 'required',
-                'price' => 'required',
-                'quantity_unit' => 'required',
+                'price' => 'required|integer|min:0',
+                'quantity_unit' => 'required|integer|min:0',
                 'quantity_type' => 'required',
             ],
             [
@@ -44,7 +44,11 @@ class PurchaseController extends Controller
                 'date.required' => 'Please enter date',
                 'address.required' => 'Please enter address',
                 'price.required' => 'Please enter price',
+                'price.integer' => 'Price must be integer',
+                'price.min' => 'Price must be greater than 0',
                 'quantity_unit.required' => 'Please enter quantity unit',
+                'quantity_unit.integer' => 'Quantity unit must be integer',
+                'quantity_unit.min' => 'Quantity unit must be greater than 0',
                 'quantity_type.required' => 'Please enter quantity type',
             ]
         );

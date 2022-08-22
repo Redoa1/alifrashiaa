@@ -10,6 +10,7 @@ use Carbon\Carbon;
 Use App\Models\Branch;
 Use App\Models\Ledger;
 use App\Models\Purchase;
+use com_exception;
 use Illuminate\Support\Facades\DB;
 
 
@@ -33,8 +34,23 @@ class PaymentController extends Controller
             'ledger_id' => 'required',
             'note' => 'required',
             'details' => 'required',
-            'amount' => 'required',
+            'payable' => 'required|integer|min:0',
+            'paid' => 'required|integer|min:0',
             'created_at' => Carbon::now(),
+        ]
+        ,[
+            'voucher.required' => 'Voucher is required',
+            'date.required' => 'Please enter date',
+            'branch_id.required' => 'Please enter branch',
+            'ledger_id.required' => 'Please enter ledger',
+            'note.required' => 'Please enter note',
+            'details.required' => 'Please enter details',
+            'payable.required' => 'Please enter payable',
+            'payable.integer' => 'Payable must be integer',
+            'payable.min' => 'Payable must be greater than 0',
+            'paid.required' => 'Please enter paid',
+            'paid.integer' => 'Paid must be integer',
+            'paid.min' => 'Paid must be greater than 0',
         ]);
         $paymentData = $request->only(['voucher', 'date', 'branch_id', 'note', 'ledger_id', 'created_at']);
         $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
@@ -44,18 +60,18 @@ class PaymentController extends Controller
                 'branch_id',
                 'ledger_id',
                 'details',
-                'amount',
+                'payable',
+                'paid',
+                'due',
             ]);
+            $debitData['due'] = $debitData['payable'] - $debitData['paid'];
             $debitData['payment_id'] = $payment->id;
-            
-        Debit::create($debitData); 
-
-            
-        $notification = array(
+            Debit::create($debitData); 
+            $notification = array(
             'message' => 'Payment Added Successfully',
             'alert-type' => 'success',
-        );
-        return redirect('/admin/payment/view/'.$payment->id)->with($notification);
+            );
+            return redirect()->route('admin.payment.view',$payment->id)->with($notification);
     }
 
     public function ShowPayment(){

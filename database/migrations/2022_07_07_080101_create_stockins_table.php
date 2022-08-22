@@ -17,8 +17,9 @@ class CreateStockinsTable extends Migration
             $table->id();
             $table->integer('product_id');
             $table->string('details');
-            $table->integer('stock');
-            $table->string('price');
+            $table->integer('stock_unit')->required();
+            $table->string('stock_type')->required();
+            $table->integer('price')->required();
             $table->timestamps();
         });
     }

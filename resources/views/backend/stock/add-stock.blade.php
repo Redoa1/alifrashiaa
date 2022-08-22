@@ -67,7 +67,7 @@
                                                     <option disabled selected>Select Unit Type...</option>
                                                     <option value="" class="bg-info text-white ">Type Manually</option>
                                                     @foreach($stock_types as $stock_type)
-                                                    <option value="{{ $stock_type->unit_name }}">{{ $stock_type->unit_name }}</option>
+                                                    <option value="{{ $stock_type->unit_name }}" >{{ $stock_type->unit_name }}</option>
                                                     @endforeach
                                                 </select><input name="stock_type" class="form-control" style="display:none;" disabled="disabled" onblur="if($(this).val()=='')showOptions('stock_type')">
                                             </div>
@@ -120,4 +120,5 @@
         toggle($(`select[name=${inputName}]`), $(`input[name=${inputName}]`));
     }
 </script>
+
 @endsection

@@ -14,7 +14,7 @@ class ReportController extends Controller
     public function showReport(){
         $balance = Balance::all()->sum('balance');
         $stockin = Stockin::all()->sum('price');
-        $debit = Debit::all()->sum('amount');
+        $debit = Debit::all()->sum('paid');
         $current = $balance-($stockin+$debit);
         return view('backend.report.show-report',compact('balance','stockin','debit','current'));
     }
