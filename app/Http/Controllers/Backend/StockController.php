@@ -200,12 +200,23 @@ class StockController extends Controller
 
     public Function ShowProductInOutRecord($id){
         $stocks = Stockin::where('product_id',$id)->get();
-        $stockouts = Stockout::where('product_id',$id)->get();
-
         $total_stock = Stockin::where('product_id',$id)->sum('stock_unit');
         $total_price = Stockin::where('product_id',$id)->sum('price');
+
+        $stockouts = Stockout::where('product_id',$id)->get();
         $total_stockout = Stockout::where('product_id',$id)->sum('stock_unit');
-        return view('backend.stock.view-product-inout',compact('stocks','stockouts','total_stock','total_price','total_stockout'));
+
+        $final_stock = $total_stock - $total_stockout;
+
+        if($total_stock != 0){
+            $unitprice = $total_price/$total_stock;
+            }else{
+                $unitprice = 0;
+            }
+        
+        $price = round($total_price - $total_stockout*$unitprice);
+
+        return view('backend.stock.view-product-inout',compact('stocks','stockouts','total_stock','total_price','total_stockout','final_stock','price'));
     }
 
     public function editProduct($id){

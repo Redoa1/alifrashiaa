@@ -25,7 +25,7 @@
                                               <th scope="col">Serial No</th>
                                               <th scope="col">Date</th>
                                               <th scope="col">details</th>
-                                              <th scope="col">Stock Amount</th>
+                                              <th scope="col">Stock</th>
                                               <th scope="col">Price</th>
                                             </tr>
                                         </thead>
