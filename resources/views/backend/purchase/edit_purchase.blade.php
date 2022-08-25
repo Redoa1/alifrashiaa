@@ -30,14 +30,14 @@
             </ul>
         </div>
         @endif
-        <form id="validate" action="{{ route('admin.form.save.purchase') }}" method="post">
+        <form id="validate" action="{{ url('admin/purchase/update/'.$purchase->id) }}" method="post">
             @csrf
             <div style="background-color:#138496;padding:20px;color:white;margin-bottom:20px;">
                 <div class="form-group row">
                     <label class="col-lg-4 col-form-label" for="val-category">Voucher<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" readonly class="form-control" name="voucher" value="#PU{{ Str::random(8); }}">
+                        <input type="text" readonly class="form-control" name="voucher" value="{{ $purchase->voucher }}">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -50,7 +50,7 @@
                             <option disabled selected>Select an Option...</option>
                             <option value="" class="bg-primary text-white ">Type Manually</option>
                             @foreach($products as $product)
-                            <option value="{{ $product->product_name }}">{{ $product->product_name }}</option>
+                            <option value="{{ $product->product_name }}" {{ ($product->product_name == $purchase->name) ? 'selected' : '' }}>{{ $product->product_name }}</option>
                             @endforeach
                         </select><input name="name" class="form-control" style="display:none;" disabled="disabled" onblur="if($(this).val()=='')showOptions('name')">
 
@@ -62,14 +62,14 @@
                     <label class="col-lg-4 col-form-label" for="date">Date<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="date" class="form-control" name="date" id="date" value="{{ date('d/M/Y') }}">
+                        <input type="date" class="form-control" name="date" id="date" value="{{ $purchase->date }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-4 col-form-label" for="address">Purchase From<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" name="address" id="address">
+                        <input type="text" class="form-control" name="address" id="address" value="{{ $purchase->address }}">
                     </div>
                 </div>
 
@@ -77,13 +77,13 @@
                     <label class="col-lg-4 col-form-label" for="val-subcategory_id">Quantity<span class="text-danger">*</span></label>
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <input type="number" class="form-control mr-2" aria-label="Text input with dropdown button" name='quantity_unit'>
+                            <input type="number" class="form-control mr-2" aria-label="Text input with dropdown button" name='quantity_unit' value="{{ $purchase->quantity_unit }}">
                             <div class="input-group-append">
                                 <select name="quantity_type" class="form-control ml-2" onchange="if($(this).val()=='')showCustomInput('quantity_type')">
                                     <option disabled selected>Select Unit Type...</option>
                                     <option value="" class="bg-info text-white ">Type Manually</option>
                                     @foreach($product_units as $product_unit)
-                                    <option value="{{ $product_unit->unit_name }}">{{ $product_unit->unit_name }}</option>
+                                        <option value="{{ $product_unit->unit_name }}" {{ ($product_unit->unit_name == $purchase->quantity_type) ? 'selected' : '' }}>{{ $product_unit->unit_name }}</option>
                                     @endforeach
                                 </select><input name="quantity_type" class="form-control" style="display:none;" disabled="disabled" onblur="if($(this).val()=='')showOptions('quantity_type')">
                             </div>
@@ -98,7 +98,7 @@
                     <label class="col-lg-4 col-form-label" for="val-category">Total Price<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="number" class="form-control" name="price" placeholder="Input Price in TK" required>
+                        <input type="number" class="form-control" name="price" value="{{ $purchase->price }}" required>
                     </div>
                 </div>
             </div>

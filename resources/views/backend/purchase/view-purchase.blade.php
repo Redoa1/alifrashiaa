@@ -18,8 +18,10 @@
 <div class="content-body">
     <div style="margin-left:30px;margin-right:30px;">
         <br><br>
-        <h3>Payment List</h3>
-        <span id="message_error"></span>
+        <h3>Purchase List</h3>
+        <!-- @if(Session::has('message'))
+        <span class="bg-success">{{ Session::get('message') }}</span>
+        @endif -->
         <hr><br>
 
         <div style="background-color:#138496;padding:20px;color:white;margin-bottom:20px;">
@@ -78,15 +80,7 @@
                     <input type="number" readonly class="form-control" name="price"  value="{{ $purchases->price }}">
                 </div>
             </div>
-
         </div>
-
-
-
-       
-
-        
-
     </div>
 </div>
 

@@ -25,7 +25,7 @@
                                               <th scope="col">Serial No</th>
                                               <th scope="col">Ledger Name</th>
                                               <th scope="col">Details</th>
-                                              <th scope="col">Amount</th>
+                                              <th scope="col">Paid</th>
                                               
                                             </tr>
                                         </thead>
@@ -39,7 +39,7 @@
                                                   <th scope="row">{{ $i++ }}</th>
                                                   <td>{{ $ledger->ledger_name }}</td>
                                                   <td>{{ $debit->details }}</td>
-                                                  <td>{{ $debit->amount }}</td>
+                                                  <td>{{ $debit->paid }}</td>
 
                                                  
                                                 </tr>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <!-- #/ container -->
-            <div class="container-fluid">
+            <!-- <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -67,7 +67,7 @@
                                               <th scope="col">Serial No</th>
                                               <th scope="col">Ledger Name</th>
                                               <th scope="col">Details</th>
-                                              <th scope="col">Amount</th>
+                                              <th scope="col">Paid</th>
                                               
                                             </tr>
                                         </thead>
@@ -81,7 +81,7 @@
                                                   <th scope="row">{{ $i++ }}</th>
                                                   <td>{{ $ledger->ledger_name }}</td>
                                                   <td>{{ $debit->details }}</td>
-                                                  <td>{{ $debit->amount }}</td>
+                                                  <td>{{ $debit->Paid }}</td>
                                         
                                                  
                                                 </tr>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
         </div>
 @endsection

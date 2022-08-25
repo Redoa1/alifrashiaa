@@ -75,9 +75,9 @@
       <th scope="col">Date</th>
       <th scope="col">Details</th>
      
-      <th scope="col">Debit</th>
-      <th scope="col">Credit</th>
-      <!-- <th scope="col">Total</th> -->
+      <th scope="col">Payable</th>
+      <th scope="col">Paid</th>
+      <th scope="col">Due</th>
     </tr>
   </thead>
   <tbody>
@@ -90,7 +90,10 @@
         <th scope="row">{{ $i++ }}</th>
          <td>{{ $debitlink->created_at }}</td>
         <td>{{ $debitlink->details }}</td>
-        <td>{{ $debitlink->amount }}</td>
+        <td>{{ $debitlink->payable }}</td>
+        <td>{{ $debitlink->paid }}</td>
+        <td>{{ $debitlink->due }}</td>
+
         <td></td>
       </tr>
       
@@ -100,10 +103,14 @@
         <td></td>
         <td><b>Total</b></td>
         @php
-            $total = DB::table('debits')->where('ledger_id',$ledger->id)->where('branch_id',$branch->id)->sum('amount');
+            $total_payable = DB::table('debits')->where('ledger_id',$ledger->id)->where('branch_id',$branch->id)->sum('payable');
+            $total_paid = DB::table('debits')->where('ledger_id',$ledger->id)->where('branch_id',$branch->id)->sum('paid');
+            $total_due = DB::table('debits')->where('ledger_id',$ledger->id)->where('branch_id',$branch->id)->sum('due');
+
         @endphp
-        <td><b>{{ $total }}.00</b></td>
-        <td><b>{{ $total }}.00</b></b></td>
+        <td><b>{{ $total_payable }}.00</b></td>
+        <td><b>{{ $total_paid }}.00</b></td>
+        <td><b>{{ $total_due }}.00</b></td>
       </tr>
     
   </tbody>
@@ -111,10 +118,10 @@
 @endforeach
 
 @php
-    $total = DB::table('debits')->where('ledger_id',$ledger->id)->sum('amount');
+    $total = DB::table('debits')->where('ledger_id',$ledger->id)->sum('payable');
 @endphp
 
-<h1 style="border:2px solid red;color:red;padding:30px;margin:80px;text-align:right;">Grand Total: <b>{{ $total }}</b></h1>
+<!-- <h1 style="border:2px solid red;color:red;padding:30px;margin:80px;text-align:right;">Grand Total: <b>{{ $total }}</b></h1> -->
 
    <div class="col-md-3 signature">
                 <h6 style="text-align:center;">Prepared By</h6>

@@ -179,7 +179,12 @@ class StockController extends Controller
         $product_details = Product::findOrFail($id);
         $stock = $product->sum('stock_unit');
         $inprice = $product->sum('price');
+        if($stock != 0){
         $unitprice = $inprice/$stock;
+        }else{
+            $unitprice = 0;
+        }
+
         $stockout = Stockout::where('product_id',$id)->get();
         $stockout_details = Product::findOrFail($id);
         $stockout_stock = $stockout->sum('stock_unit');

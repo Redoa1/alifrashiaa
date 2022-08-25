@@ -94,8 +94,16 @@ class LedgerController extends Controller
           ->selectRaw("debits.*, SUM(paid) as amount")
           ->groupBy('ledger_id')
           ->get();
+        $total_payable = Debit::Where('ledger_id',$id)
+          ->selectRaw("debits.*, SUM(payable) as amount")
+          ->groupBy('ledger_id')
+          ->get();
+        $total_due = Debit::Where('ledger_id',$id)
+          ->selectRaw("debits.*, SUM(due) as amount")
+          ->groupBy('ledger_id')
+          ->get();
 
-          return view('backend.ledger.all-ledger-report',compact('debits','ledger','total_debit'));
+          return view('backend.ledger.all-ledger-report',compact('debits','ledger','total_debit','total_payable','total_due'));
     }
     
     public function searchReport($id){

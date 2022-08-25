@@ -20,6 +20,15 @@
         <br><br>
         <h3>Payment</h3>
         <span id="message_error"></span>
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <hr><br>
         <form id="validate" action="{{ route('admin.form.save.payment') }}" method="post">
             @csrf

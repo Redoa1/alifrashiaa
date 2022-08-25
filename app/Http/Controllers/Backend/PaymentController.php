@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Debit;
 use Carbon\Carbon;
-Use App\Models\Branch;
-Use App\Models\Ledger;
+use App\Models\Branch;
+use App\Models\Ledger;
 use App\Models\Purchase;
 use com_exception;
 use Illuminate\Support\Facades\DB;
@@ -16,116 +16,128 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-	public function AddPayment(){
-		
-		$branches = Branch::all();
-		$ledgers = Ledger::all();
-        $purchases=Purchase::all();
-		return view('backend.payment.add-payment',compact('branches','ledgers','purchases'));
-	}
-    
+    public function AddPayment()
+    {
+
+        $branches = Branch::all();
+        $ledgers = Ledger::all();
+        $purchases = Purchase::all();
+        return view('backend.payment.add-payment', compact('branches', 'ledgers', 'purchases'));
+    }
+
     //save Record
 
-    public function saveRecord(Request $request){
-        $this->validate($request,[
-            'voucher' => 'required',
-            'date' => 'required',
-            'branch_id' => 'required',
-            'ledger_id' => 'required',
-            'note' => 'required',
-            'details' => 'required',
-            'payable' => 'required|integer|min:0',
-            'paid' => 'required|integer|min:0',
-            'created_at' => Carbon::now(),
-        ]
-        ,[
-            'voucher.required' => 'Voucher is required',
-            'date.required' => 'Please enter date',
-            'branch_id.required' => 'Please enter branch',
-            'ledger_id.required' => 'Please enter ledger',
-            'note.required' => 'Please enter note',
-            'details.required' => 'Please enter details',
-            'payable.required' => 'Please enter payable',
-            'payable.integer' => 'Payable must be integer',
-            'payable.min' => 'Payable must be greater than 0',
-            'paid.required' => 'Please enter paid',
-            'paid.integer' => 'Paid must be integer',
-            'paid.min' => 'Paid must be greater than 0',
-        ]);
+    public function saveRecord(Request $request)
+    {
+        $this->validate(
+            $request,
+            [
+                'voucher' => 'required',
+                'date' => 'required',
+                'branch_id' => 'required',
+                'ledger_id' => 'required',
+                'note' => 'required',
+                'details' => 'required',
+                'payable' => 'required|integer|min:1',
+                'paid' => 'required|integer|min:1',
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'voucher.required' => 'Voucher is required',
+                'date.required' => 'Please enter date',
+                'branch_id.required' => 'Please enter branch',
+                'ledger_id.required' => 'Please enter ledger',
+                'note.required' => 'Please enter note',
+                'details.required' => 'Please enter details',
+                'payable.required' => 'Please enter payable',
+                'payable.integer' => 'Payable must be integer',
+                'payable.min' => 'Payable must be greater than 0',
+                'paid.required' => 'Please enter paid',
+                'paid.integer' => 'Paid must be integer',
+                'paid.min' => 'Paid must be greater than 0',
+            ]
+        );
         $paymentData = $request->only(['voucher', 'date', 'branch_id', 'note', 'ledger_id', 'created_at']);
         $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
-        $payment = Payment::create($paymentData); 
-            $debitData = $request->only([
-                'payment_id', 
-                'branch_id',
-                'ledger_id',
-                'details',
-                'payable',
-                'paid',
-                'due',
-            ]);
-            $debitData['due'] = $debitData['payable'] - $debitData['paid'];
-            $debitData['payment_id'] = $payment->id;
-            Debit::create($debitData); 
-            $notification = array(
+        $payment = Payment::create($paymentData);
+        $debitData = $request->only([
+            'payment_id',
+            'branch_id',
+            'ledger_id',
+            'details',
+            'payable',
+            'paid',
+            'due',
+        ]);
+        $debitData['due'] = $debitData['payable'] - $debitData['paid'];
+        $debitData['payment_id'] = $payment->id;
+        Debit::create($debitData);
+        $notification = array(
             'message' => 'Payment Added Successfully',
             'alert-type' => 'success',
-            );
-            return redirect()->route('admin.payment.view',$payment->id)->with($notification);
+        );
+        return redirect()->route('admin.payment.view', $payment->id)->with($notification);
     }
 
-    public function ShowPayment(){
-    	$payments = Payment::orderBy('created_at', 'DESC')->get();
-    	return view('backend.payment.payment-list',compact('payments'));
+    public function ShowPayment()
+    {
+        $payments = Payment::orderBy('created_at', 'DESC')->get();
+        return view('backend.payment.payment-list', compact('payments'));
     }
 
-    public function viewPaymentById($id){
-    	$payment = Payment::findOrFail($id);
-    	$debits = Debit::where('payment_id',$payment->id)->get();
-    	return view('backend.payment.view-payment',compact('payment','debits'));
+    public function viewPaymentById($id)
+    {
+        $payment = Payment::findOrFail($id);
+        $debits = Debit::where('payment_id', $payment->id)->get();
+        return view('backend.payment.view-payment', compact('payment', 'debits'));
     }
 
-    public function deletePayment($id){
-    	$payment = Payment::findOrFail($id);
-    	Debit::where('payment_id',$payment->id)->delete();
-    	Payment::findOrFail($id)->delete();
-    	$notification = array(
-	            'message' => 'Payment Deleted Successfully',
-	            'alert-type' => 'error',
-	        );
-	      return redirect()->back()->with($notification);
+    public function deletePayment($id)
+    {
+        $payment = Payment::findOrFail($id);
+        Debit::where('payment_id', $payment->id)->delete();
+        Payment::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'Payment Deleted Successfully',
+            'alert-type' => 'error',
+        );
+        return redirect()->back()->with($notification);
     }
 
- public function PrintPayment($id){
-    $payment = Payment::findOrFail($id);
-    $debits = Debit::where('payment_id',$payment->id)->get();
-    return view('backend.payment.print-payment',compact('payment','debits'));
- }
+    public function PrintPayment($id)
+    {
+        $payment = Payment::findOrFail($id);
+        $debits = Debit::where('payment_id', $payment->id)->get();
+        return view('backend.payment.print-payment', compact('payment', 'debits'));
+    }
 
- public function editPayment($id){
-    $payment = Payment::findOrFail($id);
-    $branches = Branch::all();
-    $ledgers = Ledger::all();
-    $debits = Debit::where('payment_id',$payment->id)->get();
-    return view('backend.payment.edit-payment',compact('payment','branches','ledgers','debits'));
-   }
+    public function editPayment($id)
+    {
+        $payment = Payment::findOrFail($id);
+        $branches = Branch::all();
+        $ledgers = Ledger::all();
+        $debits = Debit::where('payment_id', $payment->id)->get();
+        return view('backend.payment.edit-payment', compact('payment', 'branches', 'ledgers', 'debits'));
+    }
 
-   public function deletePaymentDetails(Request $request,$id){
-     Debit::findOrFail($id)->delete();
+    public function deletePaymentDetails(Request $request, $id)
+    {
+        Debit::findOrFail($id)->delete();
 
 
         $notification = array(
             'message' => 'Deleted Successfully',
             'alert-type' => 'success',
         );
-      return redirect()->back()->with($notification);
-   }
+        return redirect()->back()->with($notification);
+    }
 
-   public function Adddetails(Request $request){
-    $id = $request->id;
-    $branch_id = $request->branch_id;
+    public function Adddetails(Request $request)
+    {
+        $id = $request->id;
+        $branch_id = $request->branch_id;
 
-     foreach($request->details as $key=>$value){
+        foreach ($request->details as $key => $value) {
             $saveRecord = [
                 'payment_id' => $id,
                 'branch_id' => $request->branch_id,
@@ -133,32 +145,63 @@ class PaymentController extends Controller
                 'details' => $request->details[$key],
                 'amount' => $request->amount[$key],
             ];
-            
-         DB::table('debits')->insert($saveRecord);
 
-            
+            DB::table('debits')->insert($saveRecord);
         }
-         $notification = array(
+        $notification = array(
             'message' => 'Payment Added Successfully',
             'alert-type' => 'success',
         );
         return redirect()->back()->with($notification);
-   }
-   
-   public function updateDetails(Request $request, $id){
-      Payment::findOrFail($id)->update([
-        'created_at'=>$request->date,
-      ]);
+    }
 
-       Debit::where('payment_id',$id)->update([
-        'created_at'=>$request->date,
-      ]);
-
-
-      $notification = array(
+    public function updateDetails(Request $request, $id)
+    {
+        $this->validate(
+            $request,
+            [
+                'voucher' => 'required',
+                'date' => 'required',
+                'branch_id' => 'required',
+                'ledger_id' => 'required',
+                'note' => 'required',
+                'details' => 'required',
+                'payable' => 'required|integer|min:1',
+                'paid' => 'required|integer|min:1',
+            ],
+            [
+                'voucher.required' => 'Voucher is required',
+                'date.required' => 'Please enter date',
+                'branch_id.required' => 'Please enter branch',
+                'ledger_id.required' => 'Please enter ledger',
+                'note.required' => 'Please enter note',
+                'details.required' => 'Please enter details',
+                'payable.required' => 'Please enter payable',
+                'payable.integer' => 'Payable must be integer',
+                'payable.min' => 'Payable must be greater than 0',
+                'paid.required' => 'Please enter paid',
+                'paid.integer' => 'Paid must be integer',
+                'paid.min' => 'Paid must be greater than 0',
+            ]
+        );
+        $paymentData = $request->only(['voucher', 'date', 'branch_id', 'note', 'ledger_id', 'created_at']);
+        $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
+        Payment::findOrFail($id)->update($paymentData);
+        $debitData = $request->only([
+            'payment_id',
+            'branch_id',
+            'ledger_id',
+            'details',
+            'payable',
+            'paid',
+            'due',
+        ]);
+        $debitData['due'] = $debitData['payable'] - $debitData['paid'];
+        Debit::where('payment_id', $id)->update($debitData);
+        $notification = array(
             'message' => 'Payment Updated Successfully',
             'alert-type' => 'success',
         );
-      return redirect()->back()->with($notification);
-   }
+        return redirect()->route('admin.payment.view', $id)->with($notification);
+    }
 }
