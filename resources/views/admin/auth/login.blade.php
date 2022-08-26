@@ -59,7 +59,7 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
-                                <form class="mt-5 mb-5 login-input" method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
+                                <form class="mt-5 mb-5 login-input" method="POST" action="{{ route('admin.login') }}">
                                     @csrf
                                     <div class="form-group">
                                         <input id="email" type="email" name="email" class="form-control" placeholder="Email" :value="old('email')" required>
