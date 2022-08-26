@@ -74,7 +74,7 @@ class AdminProfileController extends Controller
         );
 
 
-        dd($admin = User::find(Auth::id()));
+        $admin = User::find(Auth::id());
         $admin->name = $request->name;
         $admin->email = $request->email;
 
