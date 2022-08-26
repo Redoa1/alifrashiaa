@@ -33,12 +33,16 @@ Route::get('/', function () {
 
 //Admin Routes
 
-Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function () {
-	Route::get('/login', [AdminController::class, 'loginForm']);
-	Route::post('/login', [AdminController::class, 'store'])->name('admin.login');
+Route::group(['prefix' => 'admin'], function () {
+	// Route::post('/login', [AdminController::class, 'store'])->name('admin.login');
+	Route::get('/login', [AdminProfileController::class, 'loginForm']);
+	Route::post('/login', [AdminProfileController::class, 'loginUser'])->name('admin.login');
 });
 
-
+Route::middleware('auth')->group(function () {
+	Route::get('/admin/dashboard', function () {
+		return view('admin.dashboard');
+	})->name('admin.dashboard');
 	Route::get('/admin/logout', [AdminController::class, 'destroy'])->name('admin.logout');
 	Route::get('/admin/profile', [AdminProfileController::class, 'getAdminData'])->name('admin.profile');
 	Route::post('/admin/profile/update', [AdminProfileController::class, 'updateAdminData'])->name('admin.profile.update');
@@ -169,7 +173,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin:admin']], function ()
 		// Route::post('update/{id}', [PaymentController::class, 'updateDetails']);
 
 	});
-
-Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
-	return view('admin.dashboard');
-})->name('admin.dashboard');
+});
