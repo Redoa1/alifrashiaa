@@ -116,18 +116,20 @@
 
                   </tbody>
                 </table>
-                <div class="col-md-3 signature">
+                <section class="d-flex justify-content-center">
+                <div class="signature col mr-3">
                   <h6 style="text-align:center;">Prepared By</h6>
                 </div>
-                <div class="col-md-3 signature" style="margin-left:30px;">
+                <div class="signature col mx-3" >
                   <h6 style="text-align:center;">Checked By</h6>
                 </div>
-                <div class="col-md-3 signature" style="margin-left:30px;">
-                  <h6 style="text-align:center;">Recommended By</h6>
+                <div class="signature col mx-3" >
+                  <h6 style="text-align:center;">Received By</h6>
                 </div>
-                <div class="col-md-2 signature" style="margin-left:30px;">
+                <div class="signature col ml-3" >
                   <h6 style="text-align:center;">Approved By</h6>
                 </div>
+                </section>
               </div>
             </div>
           </div>
@@ -196,18 +198,20 @@
 
                   </tbody>
                 </table>
-                <div class="col-md-3 signature">
+                <section class="d-flex justify-content-center">
+                <div class="signature col mr-3">
                   <h6 style="text-align:center;">Prepared By</h6>
                 </div>
-                <div class="col-md-3 signature" style="margin-left:30px;">
+                <div class="signature col mx-3" >
                   <h6 style="text-align:center;">Checked By</h6>
                 </div>
-                <div class="col-md-3 signature" style="margin-left:30px;">
+                <div class="signature col mx-3" >
                   <h6 style="text-align:center;">Recommended By</h6>
                 </div>
-                <div class="col-md-2 signature" style="margin-left:30px;">
+                <div class="signature col ml-3" >
                   <h6 style="text-align:center;">Approved By</h6>
                 </div>
+                </section>
               </div>
             </div>
           </div>

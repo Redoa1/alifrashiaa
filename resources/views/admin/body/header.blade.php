@@ -42,7 +42,7 @@
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                                 
-                                <img src="{{ asset('backend/upload/admin_profile.png') }}" height="40" width="40" alt="">
+                                <img src="{{ (!empty(auth()->user()->profile_photo_path))? url('backend/upload/admin/'.auth()->user()->profile_photo_path):url('backend/upload/admin_profile.png') }}" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">

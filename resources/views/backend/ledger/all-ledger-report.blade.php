@@ -123,18 +123,20 @@
 
 <!-- <h1 style="border:2px solid red;color:red;padding:30px;margin:80px;text-align:right;">Grand Total: <b>{{ $total }}</b></h1> -->
 
-   <div class="col-md-3 signature">
-                <h6 style="text-align:center;">Prepared By</h6>
-      </div>
-      <div class="col-md-3 signature" style="margin-left:30px;">
-                <h6 style="text-align:center;">Checked By</h6>
-      </div>
-      <div class="col-md-3 signature" style="margin-left:30px;">
-                <h6 style="text-align:center;">Recommended By</h6>
-      </div>
-      <div class="col-md-2 signature" style="margin-left:30px;">
-                <h6 style="text-align:center;">Approved By</h6>
-      </div>
+<section class="d-flex justify-content-center">
+                <div class="signature col mr-3">
+                  <h6 style="text-align:center;">Prepared By</h6>
+                </div>
+                <div class="signature col mx-3" >
+                  <h6 style="text-align:center;">Checked By</h6>
+                </div>
+                <div class="signature col mx-3" >
+                  <h6 style="text-align:center;">Recommended By</h6>
+                </div>
+                <div class="signature col ml-3" >
+                  <h6 style="text-align:center;">Approved By</h6>
+                </div>
+                </section>
       </div>
     </div>
 </body>

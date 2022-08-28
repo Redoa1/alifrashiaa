@@ -57,7 +57,7 @@
                     </label>
                     <div class="col-lg-6">
                         <input type="file" onchange="readURL(this);" name="profile_photo_path" class="form-control">
-                        <img width=100px; id="image" height=100px; src="{{ (!empty($admin->profile_photo_path))? url('backend/upload/admin/'.$admin->profile_photo_path):url('backend/upload/admin_profile.png') }}">
+                        <img id="image" class="w-50" src="{{ (!empty($admin->profile_photo_path))? url('backend/upload/admin/'.$admin->profile_photo_path):url('backend/upload/admin_profile.png') }}">
                     </div>
                 </div>
 				  

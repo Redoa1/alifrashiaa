@@ -108,7 +108,7 @@ class AdminProfileController extends Controller
 
         $AdminDataPassword = User::find(Auth::id())->password;
         if (Hash::check($request->old_password, $AdminDataPassword)) {
-            $admin = Admin::find(Auth::id());
+            $admin = User::find(Auth::id());
             $admin->password = Hash::make($request->password);
             $admin->save();
             Auth::logout();

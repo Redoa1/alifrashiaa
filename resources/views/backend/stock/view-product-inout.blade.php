@@ -39,7 +39,7 @@
                                                   <th scope="row">{{ $i++ }}</th>
                                                   <td>{{ $stock->created_at }}</td>
                                                   <td>{{ $stock->details }}</td>
-                                                  <td>{{ $stock->stock }}</td>
+                                                  <td>{{ $stock->stock_unit }} {{ $stock->stock_type }}</td>
                                                   <td>{{ $stock->price }}</td>
                                                 </tr>
                                               @endforeach
@@ -71,7 +71,7 @@
                                                 <tr>
                                                   <th scope="row">{{ $i++ }}</th>
                                                   <td>{{ $stockout->created_at }}</td>
-                                                  <td>{{ $stockout->stock }}</td>
+                                                  <td>{{ $stockout->stock_unit }} {{ $stockout->stock_type }}</td>
                                                 </tr>
                                               @endforeach
                                           </tbody>
@@ -88,7 +88,7 @@
                                 <h4>Total Stock In : <b>{{ $total_stock }}</b></h4>
                                 <h4>Total Stock Out : <b>{{ $total_stockout }}</b></h4>
                                 <h4>Remaining Stock : <b>{{ $total_stock-$total_stockout }}</b></h4>
-                                <h4>Total Price : <b>{{ $total_price }}</b></h4>
+                                <h4>Remaining Stock Price : <b>{{ $price }}</b></h4>
                             </div>
                         </div>
 

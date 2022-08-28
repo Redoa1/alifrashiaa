@@ -8,10 +8,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   
     <meta name="robots" content="all">
 
-     <title>Mangement Tool</title>
+    <title>Mangement Tool</title>
 
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('backend/images/favicon.png') }}">
