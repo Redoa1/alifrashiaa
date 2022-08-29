@@ -136,7 +136,8 @@ class BalanceController extends Controller
             $totalDebit = array_sum(array_column($balanceSheet, 'debit'));
             $totalCredit = array_sum(array_column($balanceSheet, 'credit'));
             $totalBalance = $totalCredit - $totalDebit;
-            $balancesheets = collect($balanceSheet)->sortDesc();
+            // $balancesheets = collect($balanceSheet)->sortDesc();
+            $balancesheets = BalanceSheet::latest('date')->paginate(25);
             return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance'));
         }
     }

@@ -13,7 +13,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-            <h2 class="text-center">Balance Sheet</h2>
+                <h2 class="text-center">Balance Sheet</h2>
                 <div class="container">
                     <div class="bg-light shadow-sm px-3 rounded">
                         <div class="form-validation">
@@ -22,13 +22,13 @@
                                 <div class="form-group row align-items-end">
                                     <h4 class="col-lg-2">Search By Date:<span class="text-danger">*</span></h4>
                                     <div class="col-lg-4">
-                                    <label class="col-form-label" for="val-category">From<span class="text-danger">*</span>
-                                    </label>
+                                        <label class="col-form-label" for="val-category">From<span class="text-danger">*</span>
+                                        </label>
                                         <input type="date" class="form-control" name="from">
                                     </div>
                                     <div class="col-lg-4">
-                                    <label class="col-form-label" for="val-category">To<span class="text-danger">*</span>
-                                    </label>
+                                        <label class="col-form-label" for="val-category">To<span class="text-danger">*</span>
+                                        </label>
                                         <input type="date" class="form-control" name="to">
                                     </div>
                                     <div class="col-lg-2">
@@ -38,8 +38,8 @@
                             </form>
                         </div>
                         @if(isset($from) && isset ($to))
-                        
-                                    <h4 style="text-align:center;">Date : <b>From: {{ Carbon\Carbon::parse($from)->format('d-m-Y') }}  To: {{ Carbon\Carbon::parse($to)->format('d-m-Y') }}</b></h4>
+
+                        <h4 style="text-align:center;">Date : <b>From: {{ Carbon\Carbon::parse($from)->format('d-m-Y') }} To: {{ Carbon\Carbon::parse($to)->format('d-m-Y') }}</b></h4>
                         @endif
 
                         <div class="table-responsive">
@@ -77,6 +77,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="d-flex">
+                                {!! $balancesheets->links('vendor.pagination.bootstrap-4') !!}
+                            </div>
                             <div class="card">
                                 <div class="card-body">
                                     <h4 style="text-align:center;">Total Amount Remains : <b>{{ $totalBalance }}</b></h4>
@@ -88,6 +91,7 @@
             </div>
         </div>
     </div>
+
     <!-- #/ container -->
 </div>
 @endsection
