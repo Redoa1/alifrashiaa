@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ledger extends Model
 {
     use HasFactory;
-    protected $guarded = []; 
+    protected $guarded = [];
+    public function payment()
+    {
+        return $this->hasMany('App\Models\Payment');
+    } 
 }

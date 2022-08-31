@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ledger;
 use Carbon\Carbon;
 use App\Models\Debit;
+use App\Models\Payment;
 use App\Models\Recdebit;
 
 class LedgerController extends Controller
@@ -41,6 +42,9 @@ class LedgerController extends Controller
 
     public function deleteLedger($id){
 	      Ledger::findorfail($id)->delete();
+        Payment::where('ledger_id',$id)->delete();
+        Debit::where('ledger_id',$id)->delete();
+
 	    	 $notification = array(
 	            'message' => 'Ledger Deleted Successfully',
 	            'alert-type' => 'error',

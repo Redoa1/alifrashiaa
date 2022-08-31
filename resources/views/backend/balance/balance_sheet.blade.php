@@ -78,7 +78,7 @@
                                 </tbody>
                             </table>
                             <div class="d-flex">
-                                {!! $balancesheets->links('vendor.pagination.bootstrap-4') !!}
+                                {!! isset($data)?null:$balancesheets->appends(request()->except('page'))->links() !!}                                
                             </div>
                             <div class="card">
                                 <div class="card-body">

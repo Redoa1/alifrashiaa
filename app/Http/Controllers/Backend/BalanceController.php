@@ -11,6 +11,7 @@ use App\Models\Ledger;
 use App\Models\Payment;
 use App\Models\Purchase;
 use Carbon\Carbon;
+// use Illuminate\Support\Str;
 use Illuminate\Support\Carbon as SupportCarbon;
 
 use function PHPSTORM_META\type;
@@ -86,7 +87,7 @@ class BalanceController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-    public function balanceSheet($from=0,$to=0)
+    public function balanceSheet($from=0,$to=0,$data=null)
     {
         $balanceSheet = [];
         foreach (Debit::all() as $debit) {
@@ -128,7 +129,7 @@ class BalanceController extends Controller
             $totalDebit = $balancesheets->sum('debit');
             $totalCredit = $balancesheets->sum('credit');
             $totalBalance = $totalCredit - $totalDebit;
-            return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance', 'from', 'to'));
+            return view('backend.balance.balance_sheet', compact('balancesheets', 'totalDebit', 'totalCredit', 'totalBalance', 'from', 'to','data'));
         } else {
             BalanceSheet::truncate();
             $balancesheets = $balanceSheet;
@@ -146,14 +147,14 @@ class BalanceController extends Controller
     {
         $from = $request->from;
         $to = $request->to;
-
+        $data = $request->all();
 
         $start_date = Carbon::parse("$from")->format('Y-m-d');
         $end_date = Carbon::parse("$to")->format('Y-m-d');
 
         
 
-        return $this->balanceSheet($start_date, $end_date);
+        return $this->balanceSheet($start_date, $end_date,$data);
 
         //    return view('backend.balance.balance_sheet',compact('debits','from','to','ledger','enddate'));
 
