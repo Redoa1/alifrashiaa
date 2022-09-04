@@ -15,6 +15,7 @@ class CreateDebitsTable extends Migration
     {
         Schema::create('debits', function (Blueprint $table) {
             $table->id();
+            $table->string('debit_voucher')->unique()->required();
             $table->foreignId('branch_id');
             $table->foreignId('ledger_id');
             $table->string('details');

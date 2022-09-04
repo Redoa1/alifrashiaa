@@ -98,7 +98,7 @@ class BranchController extends Controller
     }
      public function BranchRepot($id){
         $branch = Branch::findOrFail($id);
-        $payments = Payment::where('branch_id',$branch->id)->get();
+        $payments = Payment::where('branch_id',$branch->id)->latest('date')->get();
         $reciepts = Reciept::where('branch_id',$branch->id)->get();
         return view('backend.branch.branch-report',compact('branch','payments','reciepts'));
     }
@@ -106,7 +106,7 @@ class BranchController extends Controller
      public function TotalBranchRepot($id){
       $branch = Branch::findOrFail($id);
      $debits =  Debit::Where('branch_id',$id)
-      ->selectRaw("debits.* , SUM(amount) as amount")
+      ->selectRaw("debits.* , SUM(paid) as paid")
       ->groupBy('ledger_id')
       ->get();
 
@@ -134,5 +134,30 @@ class BranchController extends Controller
 
      return view('backend.branch.report-by-search',compact('debits','from','to','branch','enddate'));
 
+   }
+
+   public function ReportByDate(Request $request){
+      $branch_id = $request->branch_id;
+      $branch = Branch::findOrFail($branch_id);
+      $date = $request->print;
+      $payments = Payment::where('branch_id',$branch_id)
+                          ->where('date', $date)
+                          ->get();
+      if($payments->count() == 0){
+          $notification = array(
+              'message' => 'No Data Found',
+              'alert-type' => 'error',
+          );
+          return redirect()->back()->with($notification);
+      }else{
+      foreach ($payments as $payment) {
+      $debit[] = Debit::where('branch_id',$branch_id)
+                          ->where('payment_id', $payment->id)
+                          ->get();
+      }
+
+      
+     return view('backend.branch.report-by-date',compact('debits','date','branch','payments'));
+    }
    }
 }

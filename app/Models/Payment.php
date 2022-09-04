@@ -20,4 +20,9 @@ class Payment extends Model
         return $this->belongsTo('App\Models\Debit');
     }
 
+    public function debits()
+    {
+        return $this->hasMany('App\Models\Debit');
+    }
+
 }

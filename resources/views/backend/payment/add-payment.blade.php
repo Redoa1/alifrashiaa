@@ -53,7 +53,7 @@
                     <label class="col-lg-4 col-form-label" for="val-subcategory_id">Branch<span class="text-danger">*</span></label>
                     <div class="col-lg-6">
                         <select class="form-control" name="branch_id" required>
-                            <option disabled="" selected="" value="">Select one</option>
+                            <!-- <option disabled="" selected="" value="">Select one</option> -->
                             @foreach($branches as $branch)
                             <option value="{{ $branch->id }}">{{ $branch->branch_name }}</option>
                             @endforeach
@@ -64,38 +64,42 @@
 
 
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <label class="col-lg-4 col-form-label" for="val-category">Note<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" name="note" placeholder="Side Note" required>
+                        <input type="text" class="form-control" name="note" placeholder="Side Note">
                     </div>
-                </div>
+                </div> -->
 
             </div>
             <table id="emptbl" class="table table-bordered border-primar">
                 <thead class="table-dark">
                     <tr>
+                        <th>
+                            Voucher
+                        </th>
                         <th>Ledgers</th>
                         <th>Costing Details</th>
                         <th colspan="3">Amount</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td id="col0">
-                            <select class="form-control" name="ledger_id" required>
-                                <option disabled="" selected="" value="">Select one</option>
-                                @foreach($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}">{{ $ledger->ledger_name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td id="col1"><input type="text" class="form-control" name="details" placeholder="Cost Details" required></td>
-                        <td id="col2"><input type="number" class="form-control" name="payable" placeholder="Payable" required></td>
-                        <td id="col3"><input type="number" class="form-control" name="paid" placeholder="Paid" required></td>
+                    <tr> 
+                        <td id="col0"><input type="text" readonly class="form-control" name="lvoucher[]" value="#PAL{{Str::random(8);}}"></td>
+                        <td id="col1">
+                            <select class="form-control" name="ledger_id[]" required>
+                                    <option disabled="" selected="" value="">Select one</option>
+                                    @foreach($ledgers as $ledger)
+                                        <option value="{{ $ledger->id }}">{{ $ledger->ledger_name }}</option>
+                                    @endforeach
+                              </select>
+                        </td> 
+                        <td id="col2"><input type="text" class="form-control" name="details[]" placeholder="Cost Details" required></td> 
+                        <td id="col3"><input type="number" class="form-control" name="payable[]" placeholder="Enter Payable" required></td> 
+                        <td id="col4"><input type="number" class="form-control" name="paid[]" placeholder="Enter Paid" required></td> 
                     </tr>
-                </tbody>
+                </tbody> 
             </table>
             <table>
                 <br>
@@ -123,15 +127,8 @@
             cell = row.insertCell(i);
             var copycel = document.getElementById('col' + i).innerHTML;
             cell.innerHTML = copycel;
-            if (i == 2) {
-                var radioinput = document.getElementById('col2').getElementsByTagName('input');
-                for (var j = 0; j <= radioinput.length; j++) {
-                    if (radioinput[j].type == 'radio') {
-                        var rownum = rowCount;
-                        radioinput[j].name = 'gender[' + rownum + ']';
-                    }
-                }
-            }
+            $argv = '#PAL' + Math.random().toString(36).substr(2, 8);
+            document.getElementById("col0").innerHTML = '<input type="text" readonly class="form-control" name="lvoucher[]" value="' + $argv + '">';
         }
     }
 
@@ -158,20 +155,46 @@
 <script>
     $('#validate').validate({
         reles: {
-            'empname[]': {
+            'lvoucher[]': {
                 required: true,
             },
-            'phone[]': {
+            'ledger_id[]': {
                 required: true,
             },
-            'department[]': {
+            'details[]': {
                 required: true,
+            },
+            'payable[]': {
+                required: true,
+                number: true,
+                min: 1,
+            },
+            'paid[]': {
+                required: true,
+                number: true,
+                min: 1,
             },
         },
         messages: {
-            'empname[]': "Please input file*",
-            'phone[]': "Please input file*",
-            'department[]': "Please input file*",
+            'lvoucher[]': {
+                required: 'Please enter voucher number',
+            },
+            'ledger_id[]': {
+                required: 'Please select ledger',
+            },
+            'details[]': {
+                required: 'Please enter details',
+            },
+            'payable[]': {
+                required: 'Please enter payable amount',
+                number: 'Please enter number only',
+                min: 'Please enter number greater than 0',
+            },
+            'paid[]': {
+                required: 'Please enter paid amount',
+                number: 'Please enter number only',
+                min: 'Please enter number greater than 0',
+            },
         },
     });
 </script>

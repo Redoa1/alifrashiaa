@@ -48,7 +48,7 @@
                     <label class="col-lg-4 col-form-label" for="val-subcategory_id">Branch<span class="text-danger">*</span></label>
                     <div class="col-lg-6">
                         <select class="form-control" name="branch_id" required>
-                            <option disabled="" selected="" value="">Select one</option>
+                            <!-- <option disabled="" selected="" value="">Select one</option> -->
                             @foreach($branches as $branch)
                             <option value="{{ $branch->id }}" {{ ($branch->id == $payment->branch_id) ? 'selected' : '' }}>{{ $branch->branch_name }}</option>
                             @endforeach
@@ -56,141 +56,54 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <label class="col-lg-4 col-form-label" for="val-category">Note<span class="text-danger">*</span>
                     </label>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" name="note" value="{{ $payment->note }}">
                     </div>
-                </div>
+                </div> -->
             </div>
-            <table id="emptbl" class="table table-bordered border-primar">
+            <table class="table table-bordered border-primar">
                 <thead class="table-dark">
                     <tr>
+                        <th>
+                            Voucher
+                        </th>
                         <th>Ledgers</th>
                         <th>Costing Details</th>
                         <th colspan="3">Amount</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="emptbl">
                     @php
                     $i = 1;
                     @endphp
 
                     @foreach($debits as $debit)
                     <tr>
+                        @if($debit->debit_voucher != null)
                         <td id="col0">
-                            <select class="form-control" name="ledger_id" required>
-                                <option disabled="" selected="" value="">Select one</option>
-                                @foreach($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}" {{ ($ledger->id == $payment->ledger_id) ? 'selected' : '' }}>{{ $ledger->ledger_name }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" readonly class="form-control" name="lvoucher[]" value="{{ $debit->debit_voucher }}">
                         </td>
-                        <td id="col1"><input type="text" class="form-control" name="details" value="{{ $debit->details }}" required></td>
-                        <td id="col2"><input type="number" class="form-control" name="payable" value="{{ $debit->payable }}" required></td>
-                        <td id="col3"><input type="number" class="form-control" name="paid" value="{{ $debit->paid }}" required></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="form-group row">
-                <div class="col-lg-8">
-                    <button type="submit" class="btn btn-danger">Update</button>
-                </div>
-            </div>
-        </form>
-
-        <!-- <form id="validate" method="post" action="">
-            @csrf
-            <table class="table table-dark">
-
-                <thead>
-                    <tr>
-                        <th>Ledgers</th>
-                        <th>Costing Details</th>
-                        <th colspan="3">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                    $i = 1;
-                    @endphp
-
-                    @foreach($debits as $debit)
-                    <tr>
-                        <th scope="row">{{ $i++ }}</th>
-                        <td>
-                            <select class="form-control" name="ledger_id" required>
-                                <option disabled="" selected="" value="">Select one</option>
-                                @foreach($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}" {{ $ledger->id == $debit->ledger_id ? 'selected' : '' }}>{{ $ledger->ledger_name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td><input type="text" readonly value="{{ $debit->details }}" class="form-control" name="details" /></td>
-                        <td><input type="text" readonly value="{{ $debit->payable }}" class="form-control" name="payable" /></td>
-                        <td><input type="text" readonly value="{{ $debit->paid }}" class="form-control" name="paid" /></td>
-                        <td><a href="{{ URL::to('admin/payment/details/delete/'.$debit->id) }}" class="btn btn-sm btn-danger" id="delete">delete</a></td>
-                    </tr>
-                    @endforeach
-
-                    <tr>
-                        <td></td>
-                        <th scope="row">Total</th>
-                        <td><b>Debit</b></td>
-                        @php
-
-                        $total = DB::table('debits')->where('payment_id',$payment->id)->sum('payable');
-                        @endphp
-                        <td><b>{{ $total }}</b></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td><b>Credit</td>
-                        <td><b>{{ $total }}</b></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-                </br>
-
-            </table>
-        </form>
-        <br><br>
-
-
-
-        <form id="validate" action="{{ route('admin.payment.details.add') }}" method="post">
-            @csrf
-
-            <input type="hidden" value="{{ $payment->branch_id }}" name="branch_id" />
-
-            <table id="emptbl" class="table table-bordered border-primar">
-                <input value="{{ $payment->id }}" type="hidden" name="id">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Ledgers</th>
-                        <th>Costing Details</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+                        @else
                         <td id="col0">
+                            <input type="text" readonly class="form-control" name="lvoucher[]" value="#PAL{{Str::random(8);}}">
+                        </td>
+                        @endif
+                        <td id="col1">
                             <select class="form-control" name="ledger_id[]" required>
-                                <option disabled="" selected="" value="" readonly>Select one</option>
+                                <option disabled="" selected="" value="">Select one</option>
                                 @foreach($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}">{{ $ledger->ledger_name }}</option>
+                                <option value="{{ $ledger->id }}" {{ ($ledger->id == $debit->ledger_id) ? 'selected' : '' }}>{{ $ledger->ledger_name }}</option>
                                 @endforeach
                             </select>
                         </td>
-                        <td id="col1"><input type="text" class="form-control" name="details[]" placeholder="Cost Details" required></td>
-                        <td id="col2"><input type="tel" class="form-control" name="amount[]" placeholder="Enter amount" required></td>
+                        <td id="col2"><input type="text" class="form-control" name="details[]" value="{{ $debit->details }}" required></td>
+                        <td id="col3"><input type="number" class="form-control" name="payable[]" value="{{ $debit->payable }}" required></td>
+                        <td id="col4"><input type="number" class="form-control" name="paid[]" value="{{ $debit->paid }}" required></td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
             <table>
@@ -201,34 +114,55 @@
                     <td><button type="submit" class="btn btn-sm btn-success">Save</button></td>
                 </tr>
             </table>
-        </form> -->
+        </form>
         <br>
 
     </div>
 </div>
-
 <script>
     function addRows() {
         var table = document.getElementById('emptbl');
-        var rowCount = table.rows.length;
-        var cellCount = table.rows[0].cells.length;
-        var row = table.insertRow(rowCount);
-        for (var i = 0; i <= cellCount; i++) {
-            var cell = 'cell' + i;
-            cell = row.insertCell(i);
-            var copycel = document.getElementById('col' + i).innerHTML;
-            cell.innerHTML = copycel;
-            if (i == 2) {
-                var radioinput = document.getElementById('col2').getElementsByTagName('input');
-                for (var j = 0; j <= radioinput.length; j++) {
-                    if (radioinput[j].type == 'radio') {
-                        var rownum = rowCount;
-                        radioinput[j].name = 'gender[' + rownum + ']';
+            var rowCount = table.rows.length;
+            var cellCount = table.rows[0].cells.length; 
+            var row = table.insertRow(rowCount);
+            for (var i = 0; i < cellCount; i++) {
+                var newcell = row.insertCell(i);
+                if(i == 0){
+                    var argv = '#PAL' + Math.random().toString(36).substr(2, 8);
+                    newcell.innerHTML = '<input type="text" readonly class="form-control" name="lvoucher[]" value="'+argv+'">';
+                }else if(i == 1){
+                    newcell.innerHTML = '<select class="form-control" name="ledger_id[]" required><option disabled="" selected="" value="">Select one</option>@foreach($ledgers as $ledger)<option value="{{ $ledger->id }}">{{ $ledger->ledger_name }}</option>@endforeach</select>';
+                }else{
+                    newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+                    switch (newcell.childNodes[0].type) {
+                    case "text":
+                        newcell.childNodes[0].value = "";
+                        break;
+                    case "number":
+                        newcell.childNodes[0].value = "";
+                        break;
+                    case "option":
+                        newcell.childNodes[0].value = '';
+                        break;
                     }
                 }
             }
         }
-    }
+
+    //     function addRows() {
+    //     var table = document.getElementById('emptbl');
+    //     var rowCount = table.rows.length;
+    //     var cellCount = table.rows[0].cells.length;
+    //     var row = table.insertRow(rowCount);
+    //     for (var i = 0; i <= cellCount; i++) {
+    //         var cell = 'cell' + i;
+    //         cell = row.insertCell(i);
+    //         var copycel = document.getElementById('col' + i).innerHTML;
+    //         cell.innerHTML = copycel;
+    //         $argv = '#PAL' + Math.random().toString(36).substr(2, 8);
+    //         document.getElementById("col0").innerHTML = '<input type="text" readonly class="form-control" name="lvoucher[]" value="' + $argv + '">';
+    //     }
+    // }
 
     function deleteRows() {
         var table = document.getElementById('emptbl');
@@ -253,20 +187,46 @@
 <script>
     $('#validate').validate({
         reles: {
-            'empname[]': {
+            'lvoucher[]': {
                 required: true,
             },
-            'phone[]': {
+            'ledger_id[]': {
                 required: true,
             },
-            'department[]': {
+            'details[]': {
                 required: true,
+            },
+            'payable[]': {
+                required: true,
+                number: true,
+                min: 1,
+            },
+            'paid[]': {
+                required: true,
+                number: true,
+                min: 1,
             },
         },
         messages: {
-            'empname[]': "Please input file*",
-            'phone[]': "Please input file*",
-            'department[]': "Please input file*",
+            'lvoucher[]': {
+                required: 'Please enter voucher number',
+            },
+            'ledger_id[]': {
+                required: 'Please select ledger',
+            },
+            'details[]': {
+                required: 'Please enter details',
+            },
+            'payable[]': {
+                required: 'Please enter payable amount',
+                number: 'Please enter number only',
+                min: 'Please enter number greater than 0',
+            },
+            'paid[]': {
+                required: 'Please enter paid amount',
+                number: 'Please enter number only',
+                min: 'Please enter number greater than 0',
+            },
         },
     });
 </script>

@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('edit/{id}', [BranchController::class, 'editBranch']);
 		Route::post('update/{id}', [BranchController::class, 'updateBranch']);
 		Route::get('report/{id}', [BranchController::class, 'BranchRepot']);
+		Route::post('report/{id}', [BranchController::class, 'ReportByDate'])->name('admin.branch.reportByDate');
 		Route::get('allreport/{id}', [BranchController::class, 'TotalBranchRepot']);
 		Route::get('search/{id}', [BranchController::class, 'searchReport']);
 		Route::post('generatereport', [BranchController::class, 'generateReport'])->name('admin.branch.generatereport');

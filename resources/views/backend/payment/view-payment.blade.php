@@ -49,13 +49,13 @@
 
 
 
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-lg-4 col-form-label" for="val-category">Note<span class="text-danger">*</span>
         </label>
         <div class="col-lg-6">
           <input type="text" readonly class="form-control" value="{{ $payment->note }}">
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -67,6 +67,7 @@
       <thead>
         <tr>
           <th scope="col">Serail No</th>
+          <th scope="col">Debit Voucher</th>
           <th scope="col">Ledger</th>
           <th scope="col">Details</th>
           <th scope="col">Payable</th>
@@ -82,6 +83,7 @@
         @foreach($debits as $debit)
         <tr>
           <th scope="row">{{ $i++ }}</th>
+          <td>{{ $debit->debit_voucher }}</td>
           <td>{{ $debit->ledger->ledger_name }}</td>
           <td>{{ $debit->details }}</td>
           <td>{{ $debit->payable }}</td>

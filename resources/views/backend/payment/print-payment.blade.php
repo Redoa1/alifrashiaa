@@ -71,7 +71,7 @@
                   <h6 class="pNumber">{{ $payment->voucher }}</h6>
                 </div>
                 <div class="col-md-12">
-                  <h6 class="date">Date : {{ $payment->created_at->todatestring() }}</h6>
+                  <h6 class="date">Date : {{ date('d/M/Y', strtotime($payment->date)) }}</h6>
                 </div>
                 <br><br><br>
                 <table class="table">
@@ -136,7 +136,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -182,20 +182,6 @@
                       <td>{{ $debit->due }}.00</td>
                     </tr>
                     @endforeach
-                    <!-- <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td><b>Total</b></td>
-        @php
-            $total_payable = DB::table('debits')->where('payment_id',$payment->id)->sum('payable');
-            $total_paid = DB::table('debits')->where('payment_id',$payment->id)->sum('paid');
-            $total_due = DB::table('debits')->where('payment_id',$payment->id)->sum('due');
-          @endphp
-        <td><b>{{ $total_payable }}.00</b></td>
-        <td><b>{{ $total_paid }}.00</b></td>
-        <td><b>{{ $total_due }}.00</b></td>
-      </tr> -->
-
                   </tbody>
                 </table>
                 <section class="d-flex justify-content-center">
@@ -218,5 +204,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </body>
