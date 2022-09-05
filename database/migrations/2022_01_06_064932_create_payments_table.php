@@ -18,7 +18,6 @@ class CreatePaymentsTable extends Migration
             $table->string('voucher')->unique();
             $table->date('date')->required();
             $table->integer('branch_id');
-            $table->integer('ledger_id');
             $table->text('note');
             $table->timestamps();
         });

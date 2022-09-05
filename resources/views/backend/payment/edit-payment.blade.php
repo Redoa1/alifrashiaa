@@ -167,7 +167,7 @@
     function deleteRows() {
         var table = document.getElementById('emptbl');
         var rowCount = table.rows.length;
-        if (rowCount > '2') {
+        if (rowCount > '1') {
             var row = table.deleteRow(rowCount - 1);
             rowCount--;
         } else {

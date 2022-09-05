@@ -122,14 +122,13 @@ class StockController extends Controller
     public function StoreProduct(Request $request){
         
         $request->validate([
-            'product_name' => 'required|unique:products|max:255|min:3|regex:[^[a-zA-Z]{1,}$]',
+            'product_name' => 'required|unique:products|max:255|min:3',
         ],
         [
             'product_name.required' => 'Product Name is required',
             'product_name.unique' => 'Product Name already exists',
             'product_name.max' => 'Product Name must be less than 255 characters',
             'product_name.min' => 'Product Name must be greater than 3 characters',
-            'product_name.regex' => 'Product Name must not contain any numbers',
 
         ]);
 
@@ -152,14 +151,13 @@ class StockController extends Controller
 
      public function updateProduct(Request $request,$id){
         $request->validate([
-            'product_name' => 'required|unique:products|max:255|min:3|regex:[^[a-zA-Z]{1,}$]',
+            'product_name' => 'required|unique:products|max:255|min:3',
         ],
         [
             'product_name.required' => 'Product Name is required',
             'product_name.unique' => 'Product Name already exists',
             'product_name.max' => 'Product Name must be less than 255 characters',
             'product_name.min' => 'Product Name must be greater than 3 characters',
-            'product_name.regex' => 'Product Name must not contain any numbers',
 
         ]);
 

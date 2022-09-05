@@ -155,7 +155,7 @@ class BranchController extends Controller
                           ->where('payment_id', $payment->id)
                           ->get();
       }
-
+      $debits = collect($debit);
       
      return view('backend.branch.report-by-date',compact('debits','date','branch','payments'));
     }

@@ -105,9 +105,7 @@
             <table>
                 <br>
                 <tr>
-                    <td><button type="button" class="btn btn-sm btn-info" onclick="addRows()">Add</button></td>
-                    <td><button type="button" class="btn btn-sm btn-danger" onclick="deleteRows()">Remove</button></td>
-                    <td><button type="submit" class="btn btn-sm btn-success">Save</button></td>
+                    <td><button type="submit" class="btn btn-success">Save</button></td>
                 </tr>
             </table>
         </form>
@@ -117,7 +115,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     function addRows() {
         var table = document.getElementById('emptbl');
         var rowCount = table.rows.length;
@@ -150,7 +148,7 @@
             alert('There should be atleast one row');
         }
     }
-</script>
+</script> -->
 <!-- alert blink text -->
 <script>
     function blink_text() {
@@ -160,7 +158,7 @@
     setInterval(blink_text, 1000);
 </script>
 <!-- script validate form -->
-<script>
+<!-- <script>
     $('#validate').validate({
         reles: {
             'empname[]': {
@@ -179,7 +177,7 @@
             'department[]': "Please input file*",
         },
     });
-</script>
+</script> -->
 <script>
     function toggle($toBeHidden, $toBeShown) {
         $toBeHidden.hide().prop('disabled', true);
