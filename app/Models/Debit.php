@@ -25,6 +25,6 @@ class Debit extends Model
     }
 
     public function paymentDate(){
-        return $this->hasMany('App\Models\Payment');
+        return $this->hasMany('App\Models\Payment','id', 'payment_id' );
     }
 }

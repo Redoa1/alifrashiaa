@@ -88,7 +88,7 @@
     @foreach ($debitlinks as $debitlink)
       <tr>
         <th scope="row">{{ $i++ }}</th>
-         <td>{{ $debitlink->created_at }}</td>
+         <td>{{ $debitlink->created_at->format('d-m-Y') }}</td>
         <td>{{ $debitlink->details }}</td>
         <td>{{ $debitlink->payable }}</td>
         <td>{{ $debitlink->paid }}</td>

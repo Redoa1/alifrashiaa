@@ -84,7 +84,7 @@
           @foreach($debits as $debit)
           <tr>
             <th scope="row">{{ $i++ }}</th>
-            <td>{{ $debit->created_at }}</td>
+            <td>{{ $debit->created_at->format('d-m-Y') }}</td>
             <td>{{ $debit->ledger->ledger_name }}</td>
             <td>{{ $debit->paid }}</td>
             <td>0.00</td>

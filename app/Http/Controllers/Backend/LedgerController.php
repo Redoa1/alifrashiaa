@@ -42,7 +42,7 @@ class LedgerController extends Controller
 
     public function deleteLedger($id){
 	      Ledger::findorfail($id)->delete();
-        Payment::where('ledger_id',$id)->delete();
+        // Payment::where('ledger_id',$id)->delete();
         Debit::where('ledger_id',$id)->delete();
 
 	    	 $notification = array(
@@ -90,6 +90,15 @@ class LedgerController extends Controller
     public function TotalLedgerRepot($id){
         $ledger = Ledger::findOrFail($id);
         $debits = Debit::Where('ledger_id',$id)->orderBy('created_at', 'DESC')->get()->groupBy('branch_id');
+        // $debits = Debit::query()
+        //           ->with(['paymentDate' => function($query){
+        //               $query->select('id','date')->orderBy('date','ASC');
+        //           }])
+        //           ->Where('ledger_id',$id)
+        //           ->get()
+        //           ->groupBy('branch_id');
+
+        // dd($debits);
        
         
         

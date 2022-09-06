@@ -107,6 +107,7 @@ class BranchController extends Controller
       $branch = Branch::findOrFail($id);
      $debits =  Debit::Where('branch_id',$id)
       ->selectRaw("debits.* , SUM(paid) as paid")
+      ->orderBy('created_at','desc')
       ->groupBy('ledger_id')
       ->get();
 

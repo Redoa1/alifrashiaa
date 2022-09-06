@@ -44,6 +44,7 @@ class PaymentController extends Controller
                 'branch_id.required' => 'Please enter branch',
             ]
         );
+        // dd($request->all());
         $paymentData = $request->only(['voucher', 'date', 'branch_id', 'note', 'created_at']);
         $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
         $payment = Payment::create($paymentData);
@@ -58,9 +59,10 @@ class PaymentController extends Controller
     			'payable' => $request->payable[$key],
                 'paid' => $request->paid[$key],
                 'due' => $request->payable[$key] - $request->paid[$key],
-    			'created_at' => Carbon::now(),
+    			'created_at' => $request->date,
     		];	
     	//  DB::table('debits')->insert($saveRecord);
+        // dd($debitData);
         Debit::create($debitData);
         }
         $notification = array(
@@ -163,6 +165,7 @@ class PaymentController extends Controller
                 'branch_id.required' => 'Please enter branch',
             ]
         );
+
         $paymentData = $request->only(['date', 'branch_id', 'note', 'created_at']);
         $paymentData['date'] = Carbon::parse($paymentData['date'])->format('Y-m-d');
         Debit::where('payment_id', $id)->delete();
@@ -177,9 +180,11 @@ class PaymentController extends Controller
     			'payable' => $request->payable[$key],
                 'paid' => $request->paid[$key],
                 'due' => $request->payable[$key] - $request->paid[$key],
-    			'created_at' => Carbon::now(),
+    			'created_at' => $request->date,
+                'updated_at' => $request->date,
+
     		];
-            // dd($debitData);
+          
         Debit::create($debitData);
         }
                 
