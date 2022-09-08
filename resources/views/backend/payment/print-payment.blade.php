@@ -95,40 +95,34 @@
                       <th scope="row">{{ $i++ }}</th>
                       <td>{{ $debit->ledger->ledger_name }}</td>
                       <td>{{ $debit->details }}</td>
-                      <td>{{ $debit->payable }}.00</td>
-                      <td>{{ $debit->paid }}.00</td>
-                      <td>{{ $debit->due }}.00</td>
+                      <td>{{ $debit->payable }}</td>
+                      <td>{{ $debit->paid }}</td>
+                      <td>{{ $debit->due }}</td>
                     </tr>
                     @endforeach
-                    <!-- <tr>
-        <th scope="row"></th>
-        <td></td>
-        <td><b>Total</b></td>
-        @php
-            $total_payable = DB::table('debits')->where('payment_id',$payment->id)->sum('payable');
-            $total_paid = DB::table('debits')->where('payment_id',$payment->id)->sum('paid');
-            $total_due = DB::table('debits')->where('payment_id',$payment->id)->sum('due');
-          @endphp
-        <td><b>{{ $total_payable }}.00</b></td>
-        <td><b>{{ $total_paid }}.00</b></td>
-        <td><b>{{ $total_due }}.00</b></td>
-      </tr> -->
+                    <tr>
+                      <th scope="row" colspan="2"></th>
+                      <td><b>Total:</b></td>
+                      <td><b>{{ $debits->sum('payable') }}</b></td>
+                      <td><b>{{ $debits->sum('paid') }}</b></td>
+                      <td><b>{{ $debits->sum('due') }}</b></td>
+                    </tr>
 
                   </tbody>
                 </table>
                 <section class="d-flex justify-content-center">
-                <div class="signature col mr-3">
-                  <h6 style="text-align:center;">Prepared By</h6>
-                </div>
-                <div class="signature col mx-3" >
-                  <h6 style="text-align:center;">Checked By</h6>
-                </div>
-                <div class="signature col mx-3" >
-                  <h6 style="text-align:center;">Received By</h6>
-                </div>
-                <div class="signature col ml-3" >
-                  <h6 style="text-align:center;">Approved By</h6>
-                </div>
+                  <div class="signature col mr-3">
+                    <h6 style="text-align:center;">Prepared By</h6>
+                  </div>
+                  <div class="signature col mx-3">
+                    <h6 style="text-align:center;">Checked By</h6>
+                  </div>
+                  <div class="signature col mx-3">
+                    <h6 style="text-align:center;">Received By</h6>
+                  </div>
+                  <div class="signature col ml-3">
+                    <h6 style="text-align:center;">Approved By</h6>
+                  </div>
                 </section>
               </div>
             </div>

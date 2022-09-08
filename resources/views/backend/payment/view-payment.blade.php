@@ -92,21 +92,13 @@
 
         </tr>
         @endforeach
-        <!-- <tr>
-          <th scope="row">Total</th>
-          <td><b>Payable</b></td>
-          @php
-            
-            $total = DB::table('debits')->where('payment_id',$payment->id)->sum('Payable');
-          @endphp
-          <td><b>{{ $total }}</b></td>
+        <tr>
+          <th scope="row" colspan="3"></th>
+          <td><b>Total:</b></td>
+          <td><b>{{ $debits->sum('payable') }}</b></td>
+          <td><b>{{ $debits->sum('paid') }}</b></td>
+          <td><b>{{ $debits->sum('due') }}</b></td>
       </tr>
-      <tr>
-          <th scope="row"></th>
-          <td></td>
-          <td><b>Credit</b></td>
-          <td><b>{{ $total }}</b></td>
-      </tr> -->
       </tbody>
     </table>
   </div>
